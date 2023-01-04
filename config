@@ -68,6 +68,11 @@ interface GigabitEthernet 2/0
 ipv6 enable
 ipv6 address 1:46::4:2/32
 no shutdown
+exit
+interface GigabitEthernet 3/0
+ipv6 enable
+ipv6 address 1:47::4:3/32
+no shutdown
 
 R5 :
 conf ter
@@ -85,6 +90,11 @@ exit
 interface GigabitEthernet 2/0
 ipv6 enable
 ipv6 address 1:57::5:2/32
+no shutdown
+exit
+interface GigabitEthernet 3/0
+ipv6 enable
+ipv6 address 1:56::5:3/32
 no shutdown
 
 R6 :
@@ -178,6 +188,11 @@ interface GigabitEthernet 2/0
 ipv6 enable
 ipv6 address 2:810::10:2/32
 no shutdown
+exit
+interface GigabitEthernet 3/0
+ipv6 enable
+ipv6 address 2:910::10:3/32
+no shutdown
 
 R11 :
 conf ter
@@ -194,7 +209,12 @@ no shutdown
 exit
 interface GigabitEthernet 2/0
 ipv6 enable
-ipv6 address 2:811::11:2/32
+ipv6 address 2:911::11:2/32
+no shutdown
+exit
+interface GigabitEthernet 3/0
+ipv6 enable
+ipv6 address 2:811::11:3/32
 no shutdown
 
 R12 :
