@@ -30,3 +30,4 @@ Règle générale (pas absolue) :
 Interface liaison verticale : 1/0
 Interface liaison horizontale
 /\ NON /\
+
