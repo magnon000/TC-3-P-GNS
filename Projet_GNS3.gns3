@@ -484,6 +484,24 @@
                 "x": -295,
                 "y": 123,
                 "z": 2
+            },
+            {
+                "drawing_id": "7d410ba6-f2e5-412b-adba-16a0c62eb45a",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg height=\"29\" width=\"39\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">RIP</text></svg>",
+                "x": -806,
+                "y": 226,
+                "z": 2
+            },
+            {
+                "drawing_id": "01d44350-709c-48c8-bc3d-3bf7b24b1131",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg height=\"29\" width=\"53\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">OSPF</text></svg>",
+                "x": 307,
+                "y": 216,
+                "z": 2
             }
         ],
         "links": [
