@@ -1,0 +1,53 @@
+
+
+
+BGP partie 1 :
+
+Sur chaque routeur de l'AS X (bien changer le routeur id) :
+conf ter
+router bgp 1
+no bgp default ipv4-unicast
+bgp router-id 1.1.1.1
+
+Sur chaque routeur de l'AS Y (bien changer le routeur id) :
+conf ter
+router bgp 2
+no bgp default ipv4-unicast
+bgp router-id 7.7.7.7
+
+------------------------------------------
+
+BGP partie 2 (eBGP) :
+
+R6 :
+conf ter
+router bgp 1
+neighbor 3:68::8:2 remote-as 2
+address-family ipv6 unicast
+neighbor 3:68::8:2 activate
+end
+
+R7 :
+conf ter
+router bgp 1
+neighbor 3:79::9:2 remote-as 2
+address-family ipv6 unicast
+neighbor 3:79::9:2 activate
+end
+
+R8 :
+conf ter
+router bgp 2
+neighbor 3:68::6:2 remote-as 1
+address-family ipv6 unicast
+neighbor 3:68::6:2 activate
+end
+
+R9 :
+conf ter
+router bgp 2
+neighbor 3:79::7:2 remote-as 1
+address-family ipv6 unicast
+neighbor 3:79::7:2 activate
+end
+
