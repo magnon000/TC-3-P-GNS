@@ -1,0 +1,180 @@
+Dans l'ordre 
+Rappel : l'interface 0/0 est 10, pas 0
+
+
+R1 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 1:12::1:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 1:13::1:1/32
+no shutdown
+
+R2 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 1:12::2:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 1:23::2:1/32
+no shutdown
+exit
+interface GigabitEthernet 2/0
+ipv6 enable
+ipv6 address 1:24::2:2/32
+no shutdown
+
+R3 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 1:13::3:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 1:23::3:1/32
+no shutdown
+exit
+interface GigabitEthernet 2/0
+ipv6 enable
+ipv6 address 1:35::3:2/32
+no shutdown
+
+R4 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 1:24::4:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 1:45::4:1/32
+no shutdown
+exit
+interface GigabitEthernet 2/0
+ipv6 enable
+ipv6 address 1:46::4:2/32
+no shutdown
+
+R5 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 1:35::5:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 1:45::5:1/32
+no shutdown
+exit
+interface GigabitEthernet 2/0
+ipv6 enable
+ipv6 address 1:57::5:2/32
+no shutdown
+
+R6 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 1:46::6:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 1:67::6:1/32
+no shutdown
+exit
+interface GigabitEthernet 3/0
+ipv6 enable
+ipv6 address 1:56::6:3/32
+no shutdown
+
+R7 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 1:57::7:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 1:67::7:1/32
+no shutdown
+exit
+interface GigabitEthernet 3/0
+ipv6 enable
+ipv6 address 1:47::7:3/32
+no shutdown
+
+--------------------------------------------------------
+
+R8 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 2:810::8:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 2:89::8:1/32
+no shutdown
+exit
+interface GigabitEthernet 3/0
+ipv6 enable
+ipv6 address 2:811::8:3/32
+no shutdown
+
+R9 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 2:911::9:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 2:89::9:1/32
+no shutdown
+exit
+interface GigabitEthernet 3/0
+ipv6 enable
+ipv6 address 2:910::9:3/32
+no shutdown
+
+R10 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 2:1012::10:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 1:::4:1/32
+no shutdown
+exit
+interface GigabitEthernet 2/0
+ipv6 enable
+ipv6 address 1:46::4:2/32
+no shutdown
