@@ -1,0 +1,36 @@
+Pour RIP (AS X) : 
+Sur chaque routeur :
+
+conf ter
+ipv6 router rip ASXrip
+redistribute connected
+no shutdown
+exit
+
+Et sur chaque interface de chaque routeur :
+interface GigabitEthernet 0/0
+ipv6 rip ASXrip enable
+no shutdown
+exit
+
+
+
+----------------------------------------------
+
+
+Pour OSPF (AS Y) :
+
+Sur chaque routeur :
+conf ter
+ipv6 router ospf ASYospf
+router-id 1.1.1.1
+no shutdown
+exit
+
+Et sur chaque interface de chaque routeur :
+interface GigabitEthernet 0/0
+ipv6 ospf ASYospf area 0
+no shutdown
+exit
+
+------------------------------------------
