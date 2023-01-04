@@ -171,10 +171,77 @@ no shutdown
 exit
 interface GigabitEthernet 1/0
 ipv6 enable
-ipv6 address 1:::4:1/32
+ipv6 address 2:1011::10:1/32
 no shutdown
 exit
 interface GigabitEthernet 2/0
 ipv6 enable
-ipv6 address 1:46::4:2/32
+ipv6 address 2:810::10:2/32
+no shutdown
+
+R11 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 2:1113::11:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 2:1011::11:1/32
+no shutdown
+exit
+interface GigabitEthernet 2/0
+ipv6 enable
+ipv6 address 2:811::11:2/32
+no shutdown
+
+R12 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 2:1214::12:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 2:1213::12:1/32
+no shutdown
+exit
+interface GigabitEthernet 2/0
+ipv6 enable
+ipv6 address 2:1012::12:2/32
+no shutdown
+
+R13 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 2:1314::13:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 2:1213::13:1/32
+no shutdown
+exit
+interface GigabitEthernet 2/0
+ipv6 enable
+ipv6 address 2:1113::13:2/32
+no shutdown
+
+R14 :
+conf ter
+ipv6 unicast-routing
+interface GigabitEthernet 0/0
+ipv6 enable
+ipv6 address 2:1214::14:10/32
+no shutdown
+exit
+interface GigabitEthernet 1/0
+ipv6 enable
+ipv6 address 2:1314::14:1/32
 no shutdown
