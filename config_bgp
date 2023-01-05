@@ -13,7 +13,7 @@ Sur chaque routeur de l'AS Y (bien changer le routeur id) :
 conf ter
 router bgp 2
 no bgp default ipv4-unicast
-bgp router-id 7.7.7.7
+bgp router-id 8.8.8.8
 
 ------------------------------------------
 
@@ -61,7 +61,28 @@ end
 
 
 BGP partie 3 (iBGP) : TRES LONG 
-42 lignes de commande par routeur
+Utilisation des addresses de loopback pour éviter d'être dépendant des interfaces
+Elles doivent être annoncées par OSPF
 
 R1 :
+conf ter
+int lo0
+ipv6 address 1::1/128
+ipv6 ospf 2 area 0
+router bgp 1
+neighbor 1::2/128
+neighbor 1::3/128
+neighbor 1::4/128
+neighbor 1::5/128
+neighbor 1::6/128
+neighbor 1::7/128
+address-family ipv6 unicast
+neighbor 1::2/128 activate
+neighbor 1::3/128 activate
+neighbor 1::4/128 activate
+neighbor 1::5/128 activate
+neighbor 1::6/128 activate
+neighbor 1::7/128 activate
+end
 
+Faire pour tous les routeurs de chaque AS
