@@ -7,7 +7,7 @@ redistribute connected
 no shutdown
 exit
 
-Et sur chaque interface de chaque routeur :
+Et sur chaque interface de chaque routeur SAUF INTERFACE DE SORTIE DE L'AS :
 interface GigabitEthernet 0/0
 ipv6 rip ASXrip enable
 no shutdown
@@ -27,7 +27,7 @@ router-id 7.7.7.7
 no shutdown
 exit
 
-Et sur chaque interface de chaque routeur :
+Et sur chaque interface de chaque routeur SAUF INTERFACE DE SORTIE DE L'AS:
 interface GigabitEthernet 0/0
 ipv6 ospf 2 area 0
 no shutdown
