@@ -25,7 +25,7 @@ router bgp 1
 neighbor 3:68::8:2 remote-as 2
 address-family ipv6 unicast
 neighbor 3:68::8:2 activate
-redistribute rip
+redistribute rip ASXrip
 end
 
 R7 :
@@ -34,7 +34,7 @@ router bgp 1
 neighbor 3:79::9:2 remote-as 2
 address-family ipv6 unicast
 neighbor 3:79::9:2 activate
-redistribute rip
+redistribute rip ASXrip
 end
 
 R8 :
@@ -43,7 +43,7 @@ router bgp 2
 neighbor 3:68::6:2 remote-as 1
 address-family ipv6 unicast
 neighbor 3:68::6:2 activate
-redistribute ospf
+redistribute ospf 2
 end
 
 R9 :
@@ -52,7 +52,7 @@ router bgp 2
 neighbor 3:79::7:2 remote-as 1
 address-family ipv6 unicast
 neighbor 3:79::7:2 activate
-redistribute ospf
+redistribute ospf 2
 end
 
 
