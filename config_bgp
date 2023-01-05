@@ -62,13 +62,13 @@ end
 
 BGP partie 3 (iBGP) : TRES LONG 
 Utilisation des addresses de loopback pour éviter d'être dépendant des interfaces
-Elles doivent être annoncées par OSPF
+Elles doivent être annoncées par RIP et OSPF
 
-R1 :
+Dans chaque routeur de l'AS X
 conf ter
 int lo0
 ipv6 address 1::1/128
-ipv6 ospf 2 area 0
+ipv6 rip ASXrip enable
 router bgp 1
 neighbor 1::2/128
 neighbor 1::3/128
@@ -85,4 +85,24 @@ neighbor 1::6/128 activate
 neighbor 1::7/128 activate
 end
 
-Faire pour tous les routeurs de chaque AS
+
+Dans chaque routeur de l'AS Y
+conf ter
+int lo0
+ipv6 address 2::8/128
+ipv6 ospf 2 area 0
+router bgp 2
+neighbor 2::9/128
+neighbor 2::10/128
+neighbor 2::11/128
+neighbor 2::12/128
+neighbor 2::13/128
+neighbor 2::14/128
+address-family ipv6 unicast
+neighbor 2::9/128 activate
+neighbor 2::10/128 activate
+neighbor 2::11/128 activate
+neighbor 2::12/128 activate
+neighbor 2::13/128 activate
+neighbor 2::14/128 activate
+end
