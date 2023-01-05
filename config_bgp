@@ -67,6 +67,7 @@ Elles doivent être annoncées par RIP et OSPF
 Dans chaque routeur de l'AS X
 conf ter
 int lo0
+ipv6 enable
 ipv6 address 1::1/128
 ipv6 rip ASXrip enable
 router bgp 1
@@ -89,6 +90,7 @@ end
 Dans chaque routeur de l'AS Y
 conf ter
 int lo0
+ipv6 enable
 ipv6 address 2::8/128
 ipv6 ospf 2 area 0
 router bgp 2
