@@ -64,7 +64,7 @@ BGP partie 3 (iBGP) : TRES LONG
 Utilisation des addresses de loopback pour éviter d'être dépendant des interfaces
 Elles doivent être annoncées par RIP et OSPF
 
-Dans chaque routeur de l'AS X
+Dans chaque routeur de l'AS X ATTENTION CHANGER LES NEIGHBOR A CHAQUE FOIS
 conf ter
 int lo0
 ipv6 enable
@@ -89,7 +89,7 @@ neighbor 1::7 activate
 end
 
 
-Dans chaque routeur de l'AS Y
+Dans chaque routeur de l'AS Y ATTENTION CHANGER LES NEIGHBOR A CHAQUE FOIS
 conf ter
 int lo0
 ipv6 enable
