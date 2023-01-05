@@ -105,11 +105,6 @@ ipv6 enable
 ipv6 address 1:46::6:10/32
 no shutdown
 exit
-interface GigabitEthernet 1/0
-ipv6 enable
-ipv6 address 1:67::6:1/32
-no shutdown
-exit
 interface GigabitEthernet 3/0
 ipv6 enable
 ipv6 address 1:56::6:3/32
@@ -126,11 +121,6 @@ ipv6 unicast-routing
 interface GigabitEthernet 0/0
 ipv6 enable
 ipv6 address 1:57::7:10/32
-no shutdown
-exit
-interface GigabitEthernet 1/0
-ipv6 enable
-ipv6 address 1:67::7:1/32
 no shutdown
 exit
 interface GigabitEthernet 3/0
@@ -154,11 +144,6 @@ ipv6 enable
 ipv6 address 2:810::8:10/32
 no shutdown
 exit
-interface GigabitEthernet 1/0
-ipv6 enable
-ipv6 address 2:89::8:1/32
-no shutdown
-exit
 interface GigabitEthernet 3/0
 ipv6 enable
 ipv6 address 2:811::8:3/32
@@ -175,11 +160,6 @@ ipv6 unicast-routing
 interface GigabitEthernet 0/0
 ipv6 enable
 ipv6 address 2:911::9:10/32
-no shutdown
-exit
-interface GigabitEthernet 1/0
-ipv6 enable
-ipv6 address 2:89::9:1/32
 no shutdown
 exit
 interface GigabitEthernet 3/0
