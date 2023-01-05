@@ -310,8 +310,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"130\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">2:910::9:3/32</text></svg>",
-                "x": -143,
-                "y": 61,
+                "x": -139,
+                "y": 60,
                 "z": 2
             },
             {
@@ -501,6 +501,15 @@
                 "svg": "<svg height=\"29\" width=\"53\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">OSPF</text></svg>",
                 "x": 307,
                 "y": 216,
+                "z": 2
+            },
+            {
+                "drawing_id": "361686e8-fa95-41d5-ae17-c4c8040a2940",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg height=\"29\" width=\"74\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">1::1/16</text></svg>",
+                "x": -954,
+                "y": -40,
                 "z": 2
             }
         ],
