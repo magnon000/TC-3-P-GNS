@@ -71,19 +71,19 @@ ipv6 enable
 ipv6 address 1::1/128
 ipv6 rip ASXrip enable
 router bgp 1
-neighbor 1::2/128
-neighbor 1::3/128
-neighbor 1::4/128
-neighbor 1::5/128
-neighbor 1::6/128
-neighbor 1::7/128
+neighbor 1::2 remote-as 1
+neighbor 1::3 remote-as 1
+neighbor 1::4 remote-as 1
+neighbor 1::5 remote-as 1
+neighbor 1::6 remote-as 1
+neighbor 1::7 remote-as 1
 address-family ipv6 unicast
-neighbor 1::2/128 activate
-neighbor 1::3/128 activate
-neighbor 1::4/128 activate
-neighbor 1::5/128 activate
-neighbor 1::6/128 activate
-neighbor 1::7/128 activate
+neighbor 1::2 activate
+neighbor 1::3 activate
+neighbor 1::4 activate
+neighbor 1::5 activate
+neighbor 1::6 activate
+neighbor 1::7 activate
 end
 
 
@@ -94,17 +94,18 @@ ipv6 enable
 ipv6 address 2::8/128
 ipv6 ospf 2 area 0
 router bgp 2
-neighbor 2::9/128
-neighbor 2::10/128
-neighbor 2::11/128
-neighbor 2::12/128
-neighbor 2::13/128
-neighbor 2::14/128
+neighbor 2::9 remote-as 1
+neighbor 2::10 remote-as 1
+neighbor 2::11 remote-as 1
+neighbor 2::12 remote-as 1
+neighbor 2::13 remote-as 1
+neighbor 2::14 remote-as 1
 address-family ipv6 unicast
-neighbor 2::9/128 activate
-neighbor 2::10/128 activate
-neighbor 2::11/128 activate
-neighbor 2::12/128 activate
-neighbor 2::13/128 activate
-neighbor 2::14/128 activate
+neighbor 2::9 activate
+neighbor 2::10 activate
+neighbor 2::11 activate
+neighbor 2::12 activate
+neighbor 2::13 activate
+neighbor 2::14 activate
 end
+
