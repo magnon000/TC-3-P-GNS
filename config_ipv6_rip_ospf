@@ -24,6 +24,7 @@ Sur chaque routeur :
 conf ter
 ipv6 router ospf 2
 router-id 7.7.7.7
+redistribute connected
 no shutdown
 exit
 
