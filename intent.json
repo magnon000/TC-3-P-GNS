@@ -162,7 +162,7 @@
             ],
             "routers":[
                 {
-                    "router-number":8,
+                    "router-hostname":8,
                     "router-neighbors":[
                         {
                             "router-number":10,
@@ -179,7 +179,7 @@
                     ]
                 },
                 {
-                    "router-number":9,
+                    "router-hostname":9,
                     "router-neighbors":[
                         {
                             "router-number":11,
@@ -196,7 +196,7 @@
                     ]
                 },
                 {
-                    "router-number":10,
+                    "router-hostname":10,
                     "router-neighbors":[
                         {
                             "router-number":12,
@@ -217,7 +217,7 @@
                     ]
                 },
                 {
-                    "router-number":11,
+                    "router-hostname":11,
                     "router-neighbors":[
                         {
                             "router-number":13,
@@ -238,7 +238,7 @@
                     ]
                 },
                 {
-                    "router-number":12,
+                    "router-hostname":12,
                     "router-neighbors":[
                         {
                             "router-number":14,
@@ -255,7 +255,7 @@
                     ]
                 },
                 {
-                    "router-number":13,
+                    "router-hostname":13,
                     "router-neighbors":[
                         {
                             "router-number":14,
@@ -272,7 +272,7 @@
                     ]
                 },
                 {
-                    "router-number":14,
+                    "router-hostname":14,
                     "router-neighbors":[
                         {
                             "router-number":12,
