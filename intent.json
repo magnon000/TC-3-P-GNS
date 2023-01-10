@@ -82,15 +82,66 @@
                         },
                         {
                             "router-number":7,
+                            "interface":3
+                        }
+                    ]
+                },
+                {
+                    "router-number":5,
+                    "router-neighbors":[
+                        {
+                            "router-number":3,
+                            "interface":0
+                        },
+                        {
+                            "router-number":4,
+                            "interface":1
+                        },
+                        {
+                            "router-number":6,
+                            "interface":3
+                        },
+                        {
+                            "router-number":7,
                             "interface":2
                         }
                     ]
                 },
+                {
+                    "router-number":6,
+                    "router-neighbors":[
+                        {
+                            "router-number":4,
+                            "interface":0
+                        },
+                        {
+                            "router-number":5,
+                            "interface":3
+                        },
+                        {
+                            "router-number":8,
+                            "interface":2
+                        }
+                    ]
+                },
+                {
+                    "router-number":7,
+                    "router-neighbors":[
+                        {
+                            "router-number":4,
+                            "interface":3
+                        },
+                        {
+                            "router-number":5,
+                            "interface":0
+                        },
+                        {
+                            "router-number":9,
+                            "interface":2
+                        }
+                    ]
+                }
             ]
         }
     ]
 }
-
-2 as qui ont un protocole intra domaine
-chaque as a des routeurs
-chaque routeur a un identifiant et des voisins
