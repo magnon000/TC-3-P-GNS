@@ -125,3 +125,7 @@ neighbor 2::13 activate
 neighbor 2::14 activate
 end
 
+------------
+
+Sur les ABSR, dans address-family, rajouter (en changeant 1:: ou 2::) :
+aggregate-address 1::/16 summary-only
