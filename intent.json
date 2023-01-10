@@ -1,0 +1,57 @@
+{
+    "as": [
+        {
+            "as-number":1,
+            "intra-protocol":"rip",
+            "as-prefix":"1::/16",
+            "neighbor-as": [
+                {
+                    "as-number":2,
+                    "gateway-routers": [
+                        {
+                            "router-number":6
+                        },
+                        {
+                            "router-number":7
+                        }
+                    ]
+                }
+            ],
+            "routers": [
+                {
+                    "router-number":1,
+                    "router-neighbors": [
+                        {
+                            "router-number":2
+                        },
+                        {
+                            "router-number":3
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "as-number":2,
+            "intra-protocol":"ospf",
+            "as-prefix":"2::/16",
+            "neighbor-as": [
+                {
+                    "as-number":1,
+                    "gateway-routers": [
+                        {
+                            "router-number":8
+                        },
+                        {
+                            "router-number":9
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+2 as qui ont un protocole intra domaine
+chaque as a des routeurs
+chaque routeur a un identifiant et des voisins
