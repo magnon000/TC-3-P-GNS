@@ -1,12 +1,13 @@
 # Repository for TC-3-P-GNS
 ---
 - [Repository for TC-3-P-GNS](#repository-for-tc-3-p-gns)
-  - [Part 1 : Network Configuration](#part-1--network-configuration)
+  - [Part 1: Network Configuration](#part-1-network-configuration)
     - [Consignes :](#consignes-)
     - [Première étape : déployer RIP et OSPF et BGP](#première-étape-déployer-rip-et-ospf-et-bgp)
-  - [Part 2 : Network Intent](#part-2--network-intent)
+  - [Part 2: Network Intent](#part-2-network-intent)
+    - [JSON structure:](#json-structure)
 ---
-## Part 1 : Network Configuration
+## Part 1: Network Configuration
 ### Consignes :
 1. Un AS RIP un autre OSPF
 2. Faire BGP
@@ -27,5 +28,21 @@
 * Use loopback address for full mesh in each AS
 * Do not pollute the BGP routing table in other AS
 * * Route aggregation 
-## Part 2 : Network Intent
+## Part 2: Network Intent
 * JSON
+* 2 AS qui ont un protocole intra domaine
+* Chaque AS a des routeurs
+* Chaque routeur a un identifiant et des voisins
+### JSON structure:
+* as 
+* * as-number
+* * intra-protocol
+* * as-prefix
+* * neighbor-as
+* * * as-number
+* * * gateway-routers
+* * routers
+* * * router-hostname
+* * * router-neighbors
+* * * * router-numer
+* * * * interface
