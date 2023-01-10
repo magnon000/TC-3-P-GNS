@@ -28,3 +28,4 @@
 * Do not pollute the BGP routing table in other AS
 * * Route aggregation 
 ## Part 2 : Network Intent
+* JSON

@@ -1,13 +1,13 @@
 {
-    "as": [
+    "as":[
         {
             "as-number":1,
             "intra-protocol":"rip",
             "as-prefix":"1::/16",
-            "neighbor-as": [
+            "neighbor-as":[
                 {
                     "as-number":2,
-                    "gateway-routers": [
+                    "gateway-routers":[
                         {
                             "router-number":6
                         },
@@ -17,33 +17,17 @@
                     ]
                 }
             ],
-            "routers": [
+            "routers":[
                 {
                     "router-number":1,
-                    "router-neighbors": [
+                    "router-neighbors":[
                         {
-                            "router-number":2
+                            "router-number":2,
+                            "interface":0
                         },
                         {
-                            "router-number":3
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "as-number":2,
-            "intra-protocol":"ospf",
-            "as-prefix":"2::/16",
-            "neighbor-as": [
-                {
-                    "as-number":1,
-                    "gateway-routers": [
-                        {
-                            "router-number":8
-                        },
-                        {
-                            "router-number":9
+                            "router-number":3,
+                            "interface":1
                         }
                     ]
                 }
