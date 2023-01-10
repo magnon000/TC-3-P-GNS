@@ -143,7 +143,6 @@
                 }
             ]
         },
-        ,
         {
             "as-number":2,
             "intra-protocol":"ospf",
