@@ -30,7 +30,62 @@
                             "interface":1
                         }
                     ]
-                }
+                },
+                {
+                    "router-number":2,
+                    "router-neighbors":[
+                        {
+                            "router-number":1,
+                            "interface":0
+                        },
+                        {
+                            "router-number":3,
+                            "interface":1
+                        },
+                        {
+                            "router-number":4,
+                            "interface":2
+                        }
+                    ]
+                },
+                {
+                    "router-number":3,
+                    "router-neighbors":[
+                        {
+                            "router-number":1,
+                            "interface":0
+                        },
+                        {
+                            "router-number":2,
+                            "interface":1
+                        },
+                        {
+                            "router-number":5,
+                            "interface":2
+                        }
+                    ]
+                },
+                {
+                    "router-number":4,
+                    "router-neighbors":[
+                        {
+                            "router-number":2,
+                            "interface":0
+                        },
+                        {
+                            "router-number":5,
+                            "interface":1
+                        },
+                        {
+                            "router-number":6,
+                            "interface":2
+                        },
+                        {
+                            "router-number":7,
+                            "interface":2
+                        }
+                    ]
+                },
             ]
         }
     ]
