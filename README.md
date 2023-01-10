@@ -1,42 +1,30 @@
 # Repository for TC-3-P-GNS
-
-Consignes :
-Un AS RIP un autre OSPF
-Faire BGP...
-
-Une seule Area par AS
-
-Faire que verticalement les 4 colonnes de routeurs centrales pour gagner du temps
-
-Première étape : déployer RIP et OSPF et BGP
-
-
-
-Plan d’adressage de l’AS Z :
-
-Préfixe :
-Z:numeroRouteurInfnumeroRouteurMax::
-
-Addresse entière du routeur :
-Z:numeroRouteurInfnumeroRouteurMax::numeroRouteur:numInterface
-
-avec numInterface = le numéro avant le / dans le nom de l'interface, sauf 0 qui est égal à 10
-
-
-
-
-\/ NON \/
-Règle générale (pas absolue) :
-Interface liaison verticale : 1/0
-Interface liaison horizontale
-/\ NON /\
-
 ---
-*Jan  5 11:04:25.339: %BGP-3-NOTIFICATION: received from neighbor 3:68::8:2 active 2/8 (no supported AFI/SAFI) 3 bytes 000000
-*Jan  5 11:04:25.343: %BGP-5-NBR_RESET: Neighbor 3:68::8:2 active reset (BGP Notification received)
-*Jan  5 11:04:25.347: %BGP-5-ADJCHANGE: neighbor 3:68::8:2 active Down BGP Notification received
-*Jan  5 11:04:25.347: %BGP_SESSION-5-ADJCHANGE: neighbor 3:68::8:2 IPv6 Unicast topology base removed from session  BGP Notification
-*Jan  5 11:04:30.099: %BGP-5-NBR_RESET: Neighbor 3:68::8:2 passive reset (BGP Notification sent)
-*Jan  5 11:04:30.103: %BGP-5-ADJCHANGE: neighbor 3:68::8:2 passive Down AFI/SAFI not supported
-*Jan  5 11:04:37.659: %BGP-5-ADJCHANGE: neighbor 3:68::8:2 Up
+- [Repository for TC-3-P-GNS](#repository-for-tc-3-p-gns)
+  - [Part 1 : Network Configuration](#part-1--network-configuration)
+    - [Consignes :](#consignes-)
+    - [Première étape : déployer RIP et OSPF et BGP](#première-étape-déployer-rip-et-ospf-et-bgp)
+  - [Part 2 : Network Intent](#part-2--network-intent)
 ---
+## Part 1 : Network Configuration
+### Consignes :
+1. Un AS RIP un autre OSPF
+2. Faire BGP
+3. Une seule Area par AS
+4. Faire que verticalement les 4 colonnes de routeurs centrales pour gagner du temps
+### Première étape : déployer RIP et OSPF et BGP
+1. Plan d’adressage de l’AS Z : `Part 1/config_ipv6` 
+* IPv6
+* Addresse entière du routeur : 
+* * AS : numero_Routeur_Inf + numero_Routeur_Max :: numero_Routeur : num_Interface / 32
+* Avec num_Interface = le numéro avant le / dans le nom de l'interface, sauf 0 qui est égal à 10.
+* Règle générale (pas absolue) :
+* * Interface liaison verticale : g1/0
+* * Interface liaison horizontale : g2/0 - g1/0 (AS1) g1/0 - g2/0 (AS2) 
+1. RIP et OSPF : `Part 1/config_ipv6_rip_ospf`
+* OSPF area 0
+2. eBGP et iBGP : `Part 1/config_bgp`
+* Use loopback address for full mesh in each AS
+* Do not pollute the BGP routing table in other AS
+* * Route aggregation 
+## Part 2 : Network Intent
