@@ -6,6 +6,12 @@
     - [Première étape : déployer RIP et OSPF et BGP](#première-étape-déployer-rip-et-ospf-et-bgp)
   - [Part 2: Network Intent](#part-2-network-intent)
     - [JSON structure:](#json-structure)
+  - [Part 3: Network Automation](#part-3-network-automation)
+    - [3.1 Architecture](#31-architecture)
+    - [3.2 Addressing](#32-addressing)
+    - [3.3 Protocols](#33-protocols)
+    - [3.4 Policies](#34-policies)
+  - [Part 4: Deployment](#part-4-deployment)
 ---
 ## Part 1: Network Configuration
 ### Consignes :
@@ -34,15 +40,43 @@
 * Chaque AS a des routeurs
 * Chaque routeur a un identifiant et des voisins
 ### JSON structure:
-* as 
-* * as-number
-* * intra-protocol
-* * as-prefix
-* * neighbor-as
-* * * as-number
-* * * gateway-routers
-* * routers
-* * * router-hostname
-* * * router-neighbors
-* * * * router-numer
-* * * * interface
+* as [1
+* * as-number `int`
+* * intra-protocol `str`
+* * as-prefix `str`
+* * neighbor-as [2
+* * * as-number `int`
+* * * local-pref: `int`
+* * * peering-prefix: `str`
+* * * gateway-routers [3
+* * * * router-number `int`
+* * * * MED `str || int`3]2]
+* * routers [4
+* * * router-hostname `int`
+* * * router-neighbors [5]
+* * * * router-number `int`
+* * * * interface `int`
+* * * * neighbor-cost `int` (if needed)4]1]
+
+## Part 3: Network Automation
+* Python
+* * import json
+### 3.1 Architecture
+physical network architecture -> JSON
+### 3.2 Addressing
+Automated
+IP range :
+1. as-prefix/32 -> physical interface
+2. as-prefix/128 -> loopback
+3. peering-prefix/32 -> AS-AS connection
+### 3.3 Protocols
+* IGP -> "intra-protocol"
+* to which BGP AS a given router belongs -> "routers"
+* iBGP/eBGP -> as["neighbor-as"] (to define eBGP routers)
+### 3.4 Policies
+3.4.1 BGP Policies
+business relationship with the neighboring AS -> "local-pref" & "MED"
+3.4.2 OSPF Metric Optimization
+link metrics -> "neighbor-cost"
+
+## Part 4: Deployment
