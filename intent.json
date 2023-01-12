@@ -7,12 +7,15 @@
             "neighbor-as":[
                 {
                     "as-number":2,
+                    "local-pref": "200",
                     "gateway-routers":[
                         {
-                            "router-number":6
+                            "router-number":6,
+                            "MED": "default"
                         },
                         {
-                            "router-number":7
+                            "router-number":7,
+                            "MED": "default"
                         }
                     ]
                 }
@@ -150,12 +153,15 @@
             "neighbor-as":[
                 {
                     "as-number":1,
+                    "local-pref": "200",
                     "gateway-routers":[
                         {
-                            "router-number":8
+                            "router-number":8,
+                            "MED": "default"
                         },
                         {
-                            "router-number":9
+                            "router-number":9,
+                            "MED": "default"
                         }
                     ]
                 }
