@@ -8,6 +8,7 @@
                 {
                     "as-number":2,
                     "local-pref": "200",
+                    "peering-prefix": "12::/32"
                     "gateway-routers":[
                         {
                             "router-number":6,
@@ -154,6 +155,7 @@
                 {
                     "as-number":1,
                     "local-pref": "200",
+                    "peering-prefix": "12::/16"
                     "gateway-routers":[
                         {
                             "router-number":8,
