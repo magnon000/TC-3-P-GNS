@@ -1,0 +1,4 @@
+
+
+- contrainte : pour les IP d'interfaces connectées à un routeur, le masque ne doit pas être trop petit (2 blocs :XXXX:XXXX réservés à l'hôte) (donc /96 max ?)
+
