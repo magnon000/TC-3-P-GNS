@@ -1,0 +1,4 @@
+
+- faire 1 peering prefix par interface avec un autre as
+
+- gns3fy pour la partie 4
