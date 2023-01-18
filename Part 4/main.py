@@ -1,5 +1,7 @@
 from instruments import *
 
+
+
 # def decodeJson(json):
 #     return les données
 
@@ -23,7 +25,7 @@ from instruments import *
 # (R1 <-> R2) <-> (R3)
 
 astest1 = AS(1, "rip", "1::/16")
-astest2 = AS(2, "ospf", "2::/16")
+astest2 = AS("2", "ospf", "2::/16")
 
 routeur1 = Router("1", astest1)
 routeur2 = ASBR("2", astest1)
@@ -38,7 +40,12 @@ routeur3.add_interface_from_neighbor_router("0", routeur2)
 
 routeur2.add_interface_from_neighbor_router("1",routeur3)
 
+astest1.description()
+astest2.description()
+
 routeur1.interfaces[0].craft_IP()
 routeur2.interfaces[0].craft_IP()
 routeur3.interfaces[0].craft_IP()
 routeur2.interfaces[1].craft_IP()
+
+print(astest1.AS_neighbors)
