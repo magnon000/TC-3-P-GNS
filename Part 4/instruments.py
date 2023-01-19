@@ -15,17 +15,17 @@ class AS:
             for interface in router.interfaces:
                 if interface.neighbor_router.AS_number not in self.AS_neighbors:
                     print("Erreur add_router(): le routeur ", router.router_hostname,
-                          " est connecté à un routeur d'un AS inconnu (AS:", interface.neighbor_router.AS_number, ")")
+                          " est connecté à un routeur d'un AS inconnu (AS:", interface.neighbor_router.AS_number, ")"
+                          +". Il faut ajouter les ASBR à leur AS avant de leur donner une interface connectée à un AS voisin"
+                          +"Ou sinon les ajouter après avoir fait add_neighbor_as() sur le futur AS parent")
 
+    #cas d'utilisation : lorsqu'on ajoute 
     def add_neighbor_as(self, neighbor, gateways, peering_prefix=None):
         if type(gateways) != 'list':
             gateways = [gateways]
-        for router in gateways:
-            if neighbor.AS_number in self.AS_neighbors:
-                self.AS_neighbors[neighbor.AS_number].append(router)
-            else:
-                self.AS_neighbors[neighbor.AS_number] = [gateways]
-                self.AS_neighbors_peering_prefixes[neighbor.AS_number] = [peering_prefix]
+        
+        self.AS_neighbors[neighbor.AS_number] = gateways
+        self.AS_neighbors_peering_prefixes[neighbor.AS_number] = peering_prefix
 
     def craft_ip_on_all_routers_interfaces(self):
         for router in self.routers:
@@ -33,6 +33,9 @@ class AS:
 
     # pour rapidement print la classe
     def __str__(self):
+        return "(AS " + self.AS_number + ")"
+    
+    def __repr__(self):
         return "(AS " + self.AS_number + ")"
 
     def description(self):
@@ -54,6 +57,7 @@ class Router:
         if parent_as:
             parent_as.add_router(self)
 
+    #ne fait qu'ajouter l'interface à la liste (pas de répercussions dans le parent AS)
     def add_existing_interfaces(self, interface):
         self.interfaces.append(interface)
 
@@ -82,8 +86,10 @@ class Router:
         return liste_voisins
 
     def __str__(self):
-        print("er")
-        return "(" + type(self) + self.router_hostname + ")"
+        return "( Routeur: N°" + self.router_hostname + ")"
+    
+    def __repr__(self):
+        return "( Routeur: N°" + self.router_hostname + ")"
 
     def description(self):
         print("------------------")
@@ -94,14 +100,16 @@ class Router:
 
 
 class ASBR(Router):
+    #Conseillé de créer l'ASBR avec un AS parent... NON, OBLIGATOIRE SINON NE FONCTIONNE PAS
     def __init__(self, num, parent_as):
         super().__init__(num, parent_as)
 
     # méthode retenue pour l'instant : les IP entre 2 AS ont pour préfixe FFFF::/16
+    # A une repercussion sur le parent AS : si le neighbor routeur est dans un autre AS on ajoute l'AS dans la liste des voisins avec un peering prefixe par défault (None => "FFFF::/16")
     def add_interface_from_neighbor_router(self, interface_name, neighbor_router):
         if self.parent_AS.AS_number != neighbor_router.parent_AS.AS_number:
             if neighbor_router.parent_AS.AS_number not in self.parent_AS.AS_neighbors:  # si l'as voisin n'est pas dans la liste 
-                self.parent_AS.add_neighbor_as(neighbor_router.parent_AS, neighbor_router)
+                self.parent_AS.add_neighbor_as(neighbor_router.parent_AS, self)
                 print("L'AS", neighbor_router.parent_AS.AS_number, "n'était pas dans la liste des AS voisins de",
                       self.parent_AS, " il a été rajouté")
             new_interface = Interface(interface_name,
@@ -110,27 +118,35 @@ class ASBR(Router):
         else:
             new_interface = Interface(interface_name, self.parent_AS.AS_prefix, self, neighbor_router)
         self.interfaces.append(new_interface)
+    
+    def __str__(self):
+        return "( ASBR: N°" + self.router_hostname + ")"
+    
+    def __repr__(self):
+        return "( ASBR: N°" + self.router_hostname + ")"
 
 
 class Interface:
     def __init__(self, name, ip_prefix, parent_router, neighbor_router=None):
         self.ip = None
         self.name = name
+
+        #mal géré mais tant pis c'est déjà trop le bazar: si pas de ip_prefix, on considère que c'est une interface de peering avec un autre AS qui n'a pas
+        #de peering prefix spécifié et pareil en face (le routeur avec qui on est connecté n'a pas de peering prefix spécifié avec nous)
+        #aucune autre raison supportée pour laquelle l'ip_prefix serait de
         if ip_prefix:
             self.ip_prefix = ip_prefix
         else:
-            self.ip_prefix = "FFFF::/16"  # si jamais pas de peering prefix
+            self.ip_prefix = "FFFF::/16"
+        
         self.parent_router = parent_router
         if neighbor_router:
             self.neighbor_router = neighbor_router
             self.multi_AS = parent_router.parent_AS.AS_number != neighbor_router.parent_AS.AS_number
-            print(self.parent_router.router_hostname, " est connecté à un autre AS sur l'interface", self.name,
-                  "vrai ou faux ? :", self.multi_AS)
 
     # construction de l'IP selon notre nomenclature un peu trop compliquée (définie dans readme)
     def craft_ip(self):
         if self.neighbor_router:
-            print(self.name, self.ip_prefix)
             debut_masque = self.ip_prefix.index("/")
             masque = int(self.ip_prefix[(debut_masque + 1):])
 
