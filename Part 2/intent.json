@@ -7,7 +7,7 @@
                 {
                     "as-number":2,
                     "local-pref": 200,
-                    "peering-prefix": "12::/32",
+                    "peering-prefix": "12::/16",
                     "gateway-routers":[
                         {
                             "router-number":6,
