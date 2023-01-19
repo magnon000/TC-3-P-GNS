@@ -5,3 +5,5 @@
 - contrainte : peering prefix le même pour toutes les liaison d'un couple d'AS => ne supporte pas 2 interfaces vers le même routeur du même AS voisin
 
 - contrainte : peering prefix de l'AS A vers l'AS B le même que de l'AS B vers l'AS A (PAS vérifié automatiquement par le script)
+
+- contrainte : un routeur ne peut pas exister sans AS parent (as parent nécessaire dans le constructeur)
