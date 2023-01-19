@@ -43,9 +43,9 @@ routeur2.add_interface_from_neighbor_router("1",routeur3)
 astest1.description()
 astest2.description()
 
-routeur1.interfaces[0].craft_IP()
-routeur2.interfaces[0].craft_IP()
-routeur3.interfaces[0].craft_IP()
-routeur2.interfaces[1].craft_IP()
+routeur1.interfaces[0].craft_ip()
+routeur2.interfaces[0].craft_ip()
+routeur3.interfaces[0].craft_ip()
+routeur2.interfaces[1].craft_ip()
 
 print(astest1.AS_neighbors)
