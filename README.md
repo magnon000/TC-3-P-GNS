@@ -48,7 +48,7 @@
 * * * as-number `int`
 * * * local-pref: `int`
 * * * peering-prefix: `str`
-* * * gateway-routers [3
+* * * asbr [3
 * * * * router-number `int`
 * * * * MED `str || int`3]2]
 * * routers [4
@@ -60,7 +60,9 @@
 
 ## Part 3: Network Automation
 * Python
-* * import json
+* json as config input
+* * dependence:
+* * * tkinter
 ### 3.1 Architecture
 physical network architecture -> JSON
 ### 3.2 Addressing
@@ -80,3 +82,17 @@ business relationship with the neighboring AS -> "local-pref" & "MED"
 link metrics -> "neighbor-cost"
 
 ## Part 4: Deployment
+* neighbor_as_list:
+
+[{'as-number': 2, 'local-pref': 200, 'peering-prefix': '12::/32', 'gateway-routers': [{'router-number': 6, 'MED': 'default'}, {'router-number': 7, 'MED': 'default'}]}, {'as-number': 1, 'local-pref': 200, 'peering-prefix': '12::/16', 'gateway-routers': [{'router-number': 8, 'MED': 'default'}, {'router-number': 9, 'MED': 'default'}]}]
+* asbr_list:
+
+[[{'router-number': 6, 'MED': 'default'}, {'router-number': 7, 'MED': 'default'}], [{'router-number': 8, 'MED': 'default'}, {'router-number': 9, 'MED': 'default'}]]
+* routers_list:
+
+[[{'router-hostname': 1, 'router-neighbors': [{'router-number': 2, 'interface': 0}, {'router-number': 3, 'interface': 1}]}, {'router-hostname': 2, 'router-neighbors': [{'router-number': 1, 'interface': 0}, {'router-number': 3, 'interface': 1}, {'router-number': 4, 'interface': 2}]}, {'router-hostname': 3, 'router-neighbors': [{'router-number': 1, 'interface': 0}, {'router-number': 2, 'interface': 1}, {'router-number': 5, 'interface': 2}]}, {'router-hostname': 4, 'router-neighbors': [{'router-number': 2, 'interface': 0}, {'router-number': 5, 'interface': 1}, {'router-number': 6, 'interface': 2}, {'router-number': 7, 'interface': 3}]}, {'router-hostname': 5, 'router-neighbors': [{'router-number': 3, 'interface': 0}, {'router-number': 4, 'interface': 1}, {'router-number': 6, 'interface': 3}, {'router-number': 7, 'interface': 2}]}, {'router-hostname': 6, 'router-neighbors': [{'router-number': 4, 'interface': 0}, {'router-number': 5, 'interface': 3}, {'router-number': 8, 'interface': 2}]}, {'router-hostname': 7, 'router-neighbors': [{'router-number': 4, 'interface': 3}, {'router-number': 5, 'interface': 0}, {'router-number': 9, 'interface': 2}]}], [{'router-hostname': 8, 'router-neighbors': [{'router-number': 10, 'interface': 0}, {'router-number': 6, 'interface': 2}, {'router-number': 11, 'interface': 3}]}, {'router-hostname': 9, 'router-neighbors': [{'router-number': 11, 'interface': 0}, {'router-number': 7, 'interface': 2}, {'router-number': 11, 'interface': 3}]}, {'router-hostname': 10, 'router-neighbors': [{'router-number': 12, 'interface': 0}, {'router-number': 11, 'interface': 1}, {'router-number': 8, 'interface': 2}, {'router-number': 9, 'interface': 3}]}, {'router-hostname': 11, 'router-neighbors': [{'router-number': 13, 'interface': 0}, {'router-number': 10, 'interface': 1}, {'router-number': 9, 'interface': 2}, {'router-number': 8, 'interface': 3}]}, {'router-hostname': 12, 'router-neighbors': [{'router-number': 14, 'interface': 0}, {'router-number': 13, 'interface': 1}, {'router-number': 10, 'interface': 2}]}, {'router-hostname': 13, 'router-neighbors': [{'router-number': 14, 'interface': 0}, {'router-number': 12, 'interface': 1}, {'router-number': 11, 'interface': 2}]}, {'router-hostname': 14, 'router-neighbors': [{'router-number': 12, 'interface': 0}, {'router-number': 13, 'interface': 1}]}]]
+
+* router_neighbor_list: 
+
+[[{'router-number': 2, 'interface': 0}, {'router-number': 3, 'interface': 1}], [{'router-number': 1, 'interface': 0}, {'router-number': 3, 'interface': 1}, {'router-number': 4, 'interface': 2}], [{'router-number': 1, 'interface': 0}, {'router-number': 2, 'interface': 1}, {'router-number': 5, 'interface': 2}], [{'router-number': 2, 'interface': 0}, {'router-number': 5, 'interface': 1}, {'router-number': 6, 'interface': 2}, {'router-number': 7, 'interface': 3}], [{'router-number': 3, 'interface': 0}, {'router-number': 4, 'interface': 1}, {'router-number': 6, 'interface': 3}, {'router-number': 7, 'interface': 2}], [{'router-number': 4, 'interface': 0}, {'router-number': 5, 'interface': 3}, {'router-number': 8, 'interface': 2}], [{'router-number': 4, 'interface': 3}, {'router-number': 5, 'interface': 0}, {'router-number': 9, 'interface': 2}], [{'router-number': 10, 'interface': 0}, {'router-number': 6, 'interface': 2}, {'router-number': 11, 'interface': 3}], [{'router-number': 11, 'interface': 0}, {'router-number': 7, 'interface': 2}, {'router-number': 11, 'interface': 3}], [{'router-number': 12, 'interface': 0}, {'router-number': 11, 'interface': 1}, {'router-number': 8, 'interface': 2}, {'router-number': 9, 'interface': 3}], [{'router-number': 13, 'interface': 0}, {'router-number': 10, 'interface': 1}, {'router-number': 9, 'interface': 2}, {'router-number': 8, 'interface': 3}], [{'router-number': 14, 'interface': 0}, {'router-number': 13, 'interface': 1}, {'router-number': 10, 'interface': 2}], [{'router-number': 14, 'interface': 0}, {'router-number': 12, 'interface': 1}, {'router-number': 11, 'interface': 2}], [{'router-number': 12, 'interface': 0}, {'router-number': 13, 'interface': 1}]]
+
