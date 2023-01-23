@@ -12,6 +12,7 @@
     - [3.3 Protocols](#33-protocols)
     - [3.4 Policies](#34-policies)
   - [Part 4: Deployment](#part-4-deployment)
+    - [4.1 load JSON config](#41-load-json-config)
 ---
 ## Part 1: Network Configuration
 ### Consignes :
@@ -82,6 +83,9 @@ business relationship with the neighboring AS -> "local-pref" & "MED"
 link metrics -> "neighbor-cost"
 
 ## Part 4: Deployment
+### 4.1 Load JSON config to Python persistent Object
+### 4.2 Pass persistent object to Python class
+
 * neighbor_as_list:
 
 [{'as-number': 2, 'local-pref': 200, 'peering-prefix': '12::/32', 'gateway-routers': [{'router-number': 6, 'MED': 'default'}, {'router-number': 7, 'MED': 'default'}]}, {'as-number': 1, 'local-pref': 200, 'peering-prefix': '12::/16', 'gateway-routers': [{'router-number': 8, 'MED': 'default'}, {'router-number': 9, 'MED': 'default'}]}]
