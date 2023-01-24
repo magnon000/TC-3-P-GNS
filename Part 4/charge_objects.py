@@ -51,8 +51,8 @@ with shelve.open(obj_path) as obj:
             # temp_router_num = obj['routers_as_' + str(as_num)][(as_num - 1) * 7 + router_num - 1]
             temp_router_num = obj['routers_as_' + str(as_num)][router_num]  # ignore warning
             # print(temp_router_num)
-            temp = charge_router(temp_router_num, None)  # "as_{}_obj".format(as_num))
-            # exec("temp = charge_router(temp_router_num, as_{}_obj)".format(as_num))
+            # temp = charge_router(temp_router_num, None)  # "as_{}_obj".format(as_num))
+            exec("temp = charge_router(temp_router_num, as_{}_obj)".format(as_num))
             # exec('print(as_{}_obj, end=" ")'.format(as_num))
             print(temp.__dict__)
 

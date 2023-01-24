@@ -67,7 +67,7 @@ class Router:
         self.parent_AS = parent_as
         self.interfaces = []
         if parent_as:
-            parent_as.add_router(self)
+            AS.add_router(parent_as, self.__dict__)
 
     def __len__(self):
         pass  # todo: method here
