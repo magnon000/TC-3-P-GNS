@@ -206,7 +206,7 @@ class Interface:
                   self.name + ". Pour une interface loopback utiliser LoopbackInterface")
 
     def __repr__(self):
-        return "(0/"+self.name+","+self.ip_prefix+")"
+        return "(0/"+self.name+","+self.ip_prefix+")"    # ATTENTION ça print que le préfixe
 
 
 # l'ip est créée dès la création de l'interface
@@ -218,6 +218,6 @@ class LoopbackInterface(Interface):
         self.ip = self.ip_prefix[:debut_masque] + str(parent_router.router_hostname) + "/128"
 
     def __repr__(self):
-        return "("+self.name+","+self.ip+")"
+        return "("+self.name+","+self.ip+")"   # print l'ip entière (car créée dans __init__ donc existe sûr)
 
 

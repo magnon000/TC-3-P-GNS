@@ -48,5 +48,5 @@ print(astest1.AS_neighbors)
 print(routeur2.interfaces)
 print(routeur2.get_sorted_list_of_interfaces())
 
-
+print(type(routeur1))
 
