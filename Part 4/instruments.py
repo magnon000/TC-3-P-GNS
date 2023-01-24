@@ -50,7 +50,7 @@ class AS:
 
 
 class Router:
-    def __init__(self, num: int, parent_as=None):
+    def __init__(self, num: int, parent_as: object = None):
         self.router_hostname = num
         self.router_ID = str(num) + 3 * ("." + str(num))  # anticipation OSPF
         self.parent_AS = parent_as
@@ -135,28 +135,29 @@ class ASBR(Router):
 
 
 class Interface:
-    def __init__(self, name, ip_prefix, parent_router, neighbor_router=None):
+    def __init__(self, number: int, ip_prefix, parent_router, neighbor_router):
         self.ip = None
-        self.name = name
+        self.name = str(number)
+        self.ip_prefix = ip_prefix
+        self.parent_router = parent_router
 
         """mal géré mais tant pis c'est déjà trop le bazar: 
         si pas de ip_prefix, on considère que c'est une interface de peering avec un autre AS 
         qui n'a pas de peering prefix spécifié et pareil en face 
         (le routeur avec qui on est connecté n'a pas de peering prefix spécifié avec nous)
         aucune autre raison supportée pour laquelle l'ip_prefix serait de"""
-        if ip_prefix:
-            self.ip_prefix = ip_prefix
-        else:
-            self.ip_prefix = "FFFF::/16"
+        # if ip_prefix:
+        #     self.ip_prefix = ip_prefix
+        # else:
+        #     self.ip_prefix = "FFFF::/16"
 
-        self.parent_router = parent_router
-        if neighbor_router is not None:
-            self.neighbor_router = neighbor_router
-            self.multi_AS = parent_router.parent_AS.AS_number != neighbor_router.parent_AS.AS_number
+        # if neighbor_router:
+        self.neighbor_router = neighbor_router  # config in JSON, don't know neighbor router: value=None
+        self.multi_AS = parent_router.parent_AS.AS_number != neighbor_router.parent_AS.AS_number
 
     # construction de l'IP selon notre nomenclature un peu trop compliquée (définie dans readme)
     def craft_ip(self):
-        if self.neighbor_router is not None:
+        if self.neighbor_router:
             debut_masque = self.ip_prefix.index("/")
             masque = int(self.ip_prefix[(debut_masque + 1):])
 
@@ -183,7 +184,7 @@ class Interface:
                   self.name + ". Pour une interface loopback utiliser LoopbackInterface")
 
     def __repr__(self):
-        return "(0/"+self.name+","+self.ip_prefix+")"
+        return "(0/" + self.name + "," + self.ip_prefix + ")"
 
 
 # l'ip est créée dès la création de l'interface

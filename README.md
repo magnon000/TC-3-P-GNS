@@ -12,7 +12,8 @@
     - [3.3 Protocols](#33-protocols)
     - [3.4 Policies](#34-policies)
   - [Part 4: Deployment](#part-4-deployment)
-    - [4.1 load JSON config](#41-load-json-config)
+    - [4.1 Load JSON config to Python persistent Object](#41-load-json-config-to-python-persistent-object)
+    - [4.2 Pass persistent object to Python class](#42-pass-persistent-object-to-python-class)
 ---
 ## Part 1: Network Configuration
 ### Consignes :
@@ -55,7 +56,7 @@
 * * routers [4
 * * * router-hostname `int`
 * * * router-neighbors [5]
-* * * * router-number `int`
+* * * * neighbor-number `int`
 * * * * interface `int`
 * * * * neighbor-cost `int` (if needed)4]1]
 

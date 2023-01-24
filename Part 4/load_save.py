@@ -53,7 +53,7 @@ def get_router_num_list(routers_list: list) -> list:
 
 
 def save_obj(obj_name: str, write_data: tuple, as_num_list, router_num_list) -> None:
-    """use 2 lists: 'routers', 'router-neighbors' to name the keys of dict"""
+    """use 2 lists: 'routers', 'router-neighbors' to number the keys of dict"""
     with shelve.open(obj_name) as p_obj:
         key_list = ['as_', 'neighbor_as_', 'asbr_as_', 'routers_as_', 'neighbor_router_']
         num_list = [as_num_list, as_num_list, as_num_list, as_num_list, router_num_list]
@@ -65,10 +65,12 @@ def save_obj(obj_name: str, write_data: tuple, as_num_list, router_num_list) -> 
                 count += 1
             index += 1
         p_obj['as_number_list'] = as_num_list
+        p_obj['router_number_list'] = router_num_list
+
 
 if __name__ == '__main__':
     json_path = ask_json_file()
-    save_path_empty = True  # avoid empty name
+    save_path_empty = True  # avoid empty number
     while save_path_empty:
         save_path = ask_obj_path()
         if save_path:
@@ -84,3 +86,4 @@ if __name__ == '__main__':
         for ele in test:
             print(ele)
         print(test['asbr_as_2'])
+        print(test['neighbor_router_14'])
