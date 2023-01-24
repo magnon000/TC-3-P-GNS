@@ -7,3 +7,5 @@
 - contrainte : peering prefix de l'AS A vers l'AS B le même que de l'AS B vers l'AS A (PAS vérifié automatiquement par le script)
 
 - contrainte : une interface ne peut pas exister sans routeur (routeur parent nécessaire au constructeur)
+
+- contrainte : 1 seule protocole intra domaine par AS qui relie FORCEMENT tous les routeurs de l'AS
