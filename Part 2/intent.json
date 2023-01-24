@@ -25,11 +25,11 @@
                     "router-hostname":1,
                     "router-neighbors":[
                         {
-                            "router-number":2,
+                            "neighbor-number":2,
                             "interface":0
                         },
                         {
-                            "router-number":3,
+                            "neighbor-number":3,
                             "interface":1
                         }
                     ]
@@ -38,15 +38,15 @@
                     "router-hostname":2,
                     "router-neighbors":[
                         {
-                            "router-number":1,
+                            "neighbor-number":1,
                             "interface":0
                         },
                         {
-                            "router-number":3,
+                            "neighbor-number":3,
                             "interface":1
                         },
                         {
-                            "router-number":4,
+                            "neighbor-number":4,
                             "interface":2
                         }
                     ]
@@ -55,15 +55,15 @@
                     "router-hostname":3,
                     "router-neighbors":[
                         {
-                            "router-number":1,
+                            "neighbor-number":1,
                             "interface":0
                         },
                         {
-                            "router-number":2,
+                            "neighbor-number":2,
                             "interface":1
                         },
                         {
-                            "router-number":5,
+                            "neighbor-number":5,
                             "interface":2
                         }
                     ]
@@ -72,19 +72,19 @@
                     "router-hostname":4,
                     "router-neighbors":[
                         {
-                            "router-number":2,
+                            "neighbor-number":2,
                             "interface":0
                         },
                         {
-                            "router-number":5,
+                            "neighbor-number":5,
                             "interface":1
                         },
                         {
-                            "router-number":6,
+                            "neighbor-number":6,
                             "interface":2
                         },
                         {
-                            "router-number":7,
+                            "neighbor-number":7,
                             "interface":3
                         }
                     ]
@@ -93,19 +93,19 @@
                     "router-hostname":5,
                     "router-neighbors":[
                         {
-                            "router-number":3,
+                            "neighbor-number":3,
                             "interface":0
                         },
                         {
-                            "router-number":4,
+                            "neighbor-number":4,
                             "interface":1
                         },
                         {
-                            "router-number":6,
+                            "neighbor-number":6,
                             "interface":3
                         },
                         {
-                            "router-number":7,
+                            "neighbor-number":7,
                             "interface":2
                         }
                     ]
@@ -114,15 +114,15 @@
                     "router-hostname":6,
                     "router-neighbors":[
                         {
-                            "router-number":4,
+                            "neighbor-number":4,
                             "interface":0
                         },
                         {
-                            "router-number":5,
+                            "neighbor-number":5,
                             "interface":3
                         },
                         {
-                            "router-number":8,
+                            "neighbor-number":8,
                             "interface":2
                         }
                     ]
@@ -131,15 +131,15 @@
                     "router-hostname":7,
                     "router-neighbors":[
                         {
-                            "router-number":4,
+                            "neighbor-number":4,
                             "interface":3
                         },
                         {
-                            "router-number":5,
+                            "neighbor-number":5,
                             "interface":0
                         },
                         {
-                            "router-number":9,
+                            "neighbor-number":9,
                             "interface":2
                         }
                     ]
@@ -172,15 +172,15 @@
                     "router-hostname":8,
                     "router-neighbors":[
                         {
-                            "router-number":10,
+                            "neighbor-number":10,
                             "interface":0
                         },
                         {
-                            "router-number":6,
+                            "neighbor-number":6,
                             "interface":2
                         },
                         {
-                            "router-number":11,
+                            "neighbor-number":11,
                             "interface":3
                         }
                     ]
@@ -189,15 +189,15 @@
                     "router-hostname":9,
                     "router-neighbors":[
                         {
-                            "router-number":11,
+                            "neighbor-number":11,
                             "interface":0
                         },
                         {
-                            "router-number":7,
+                            "neighbor-number":7,
                             "interface":2
                         },
                         {
-                            "router-number":11,
+                            "neighbor-number":11,
                             "interface":3
                         }
                     ]
@@ -206,19 +206,19 @@
                     "router-hostname":10,
                     "router-neighbors":[
                         {
-                            "router-number":12,
+                            "neighbor-number":12,
                             "interface":0
                         },
                         {
-                            "router-number":11,
+                            "neighbor-number":11,
                             "interface":1
                         },
                         {
-                            "router-number":8,
+                            "neighbor-number":8,
                             "interface":2
                         },
                         {
-                            "router-number":9,
+                            "neighbor-number":9,
                             "interface":3
                         }
                     ]
@@ -227,19 +227,19 @@
                     "router-hostname":11,
                     "router-neighbors":[
                         {
-                            "router-number":13,
+                            "neighbor-number":13,
                             "interface":0
                         },
                         {
-                            "router-number":10,
+                            "neighbor-number":10,
                             "interface":1
                         },
                         {
-                            "router-number":9,
+                            "neighbor-number":9,
                             "interface":2
                         },
                         {
-                            "router-number":8,
+                            "neighbor-number":8,
                             "interface":3
                         }
                     ]
@@ -248,15 +248,15 @@
                     "router-hostname":12,
                     "router-neighbors":[
                         {
-                            "router-number":14,
+                            "neighbor-number":14,
                             "interface":0
                         },
                         {
-                            "router-number":13,
+                            "neighbor-number":13,
                             "interface":1
                         },
                         {
-                            "router-number":10,
+                            "neighbor-number":10,
                             "interface":2
                         }
                     ]
@@ -265,15 +265,15 @@
                     "router-hostname":13,
                     "router-neighbors":[
                         {
-                            "router-number":14,
+                            "neighbor-number":14,
                             "interface":0
                         },
                         {
-                            "router-number":12,
+                            "neighbor-number":12,
                             "interface":1
                         },
                         {
-                            "router-number":11,
+                            "neighbor-number":11,
                             "interface":2
                         }
                     ]
@@ -282,11 +282,11 @@
                     "router-hostname":14,
                     "router-neighbors":[
                         {
-                            "router-number":12,
+                            "neighbor-number":12,
                             "interface":0
                         },
                         {
-                            "router-number":13,
+                            "neighbor-number":13,
                             "interface":1
                         }
                     ]
