@@ -33,6 +33,8 @@ routeur3.add_interface_from_neighbor_router("0", routeur2)
 
 routeur2.add_interface_from_neighbor_router("1", routeur3)
 
+routeur2.add_loopback_interface()
+
 astest1.description()
 astest2.description()
 
@@ -42,3 +44,9 @@ routeur3.interfaces[0].craft_ip()
 routeur2.interfaces[1].craft_ip()
 
 print(astest1.AS_neighbors)
+
+print(routeur2.interfaces)
+print(routeur2.get_sorted_list_of_interfaces())
+
+print(type(routeur1))
+

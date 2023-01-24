@@ -32,6 +32,17 @@ class AS:
         for router in self.routers:
             router.craft_ip_on_all_interfaces()
 
+    def get_router_by_hostname(self,hostname):
+        for routeur in self.routers:
+            if routeur.router_hostname == hostname:
+                return routeur
+        print("Erreur get_router_by_hostname: le routeur "+str(hostname)+" n'est pas dans l'AS "+self.AS_number)
+
+    def get_sorted_list_of_routers(self):
+        sorted_routers = self.routers
+        sorted_routers.sort(key=lambda routeur: routeur.router_hostname)
+        return sorted_routers
+
     # pour rapidement print la classe
     def __str__(self):
         return "(AS " + self.AS_number + ")"
@@ -89,6 +100,18 @@ class Router:
             if type(interface) != LoopbackInterface:
                 liste_voisins.append(interface.neighbor_router)
         return liste_voisins
+
+    def get_interface_by_name(self, name):
+        name = str(name)
+        for interface in self.interfaces:
+            if interface.name == name:
+                return interface
+        print("Erreur: le routeur "+str(self.router_hostname)+" n'a aucune interface 0/"+name)
+
+    def get_sorted_list_of_interfaces(self):
+        sorted_interfaces = self.interfaces
+        sorted_interfaces.sort(key=lambda interface: interface.name)
+        return sorted_interfaces
 
     def __str__(self):
         return "( Routeur: N°" + str(self.router_hostname) + ")"
@@ -185,6 +208,7 @@ class Interface:
 
     def __repr__(self):
         return "(0/" + self.name + "," + self.ip_prefix + ")"
+        return "(0/"+self.name+","+self.ip_prefix+")"    # ATTENTION ça print que le préfixe
 
 
 # l'ip est créée dès la création de l'interface
@@ -193,4 +217,9 @@ class LoopbackInterface(Interface):
         super().__init__("lo0", ip_prefix, parent_router)
         debut_masque = self.ip_prefix.index("/")
         longueur_hostname = len(str(self.name))
-        self.ip = self.ip_prefix[:debut_masque] + parent_router.routeur_hostname + "/128"
+        self.ip = self.ip_prefix[:debut_masque] + str(parent_router.router_hostname) + "/128"
+
+    def __repr__(self):
+        return "("+self.name+","+self.ip+")"   # print l'ip entière (car créée dans __init__ donc existe sûr)
+
+
