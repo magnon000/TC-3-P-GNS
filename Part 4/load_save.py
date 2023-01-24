@@ -64,7 +64,7 @@ def save_obj(obj_name: str, write_data: tuple, as_num_list, router_num_list) -> 
                 p_obj[key_list[index] + str(num_list[index][count])] = elem
                 count += 1
             index += 1
-
+        p_obj['as_number_list'] = as_num_list
 
 if __name__ == '__main__':
     json_path = ask_json_file()
