@@ -9,3 +9,5 @@
 - contrainte : une interface ne peut pas exister sans routeur (routeur parent nécessaire au constructeur)
 
 - contrainte : 1 seule protocole intra domaine par AS qui relie FORCEMENT tous les routeurs de l'AS
+
+- contrainte : peering prefix entre 2 as à spécifier obligatoirement (long bloc de commentaire qui dit l'inverse dans instruments.py mais c'est pour si jamais on a le temps)
