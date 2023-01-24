@@ -1,3 +1,6 @@
+"""
+handle JSON read, Python persistent object save, config.cfg save
+"""
 import json
 import shelve
 from tkinter import filedialog
