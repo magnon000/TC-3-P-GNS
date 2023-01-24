@@ -99,7 +99,7 @@ class Router:
     def description(self):
         print("------------------")
         print("Le routeur", self.router_hostname, "appartient à l'AS", self.parent_AS.AS_number)
-        print("Ses interfaces sont (nom,prefixe) :", [(interf, interf.ip_prefix) for interf in self.interfaces])
+        print("Ses interfaces sont (nom,prefixe) :", self.interfaces)
         print("Ses routeurs voisins sont :", self.get_neighbor_routers())
         print("------------------")
 
@@ -119,9 +119,10 @@ class ASBR(Router):
                 self.parent_AS.add_neighbor_as(neighbor_router.parent_AS, self)
                 print("L'AS", neighbor_router.parent_AS.AS_number, "n'était pas dans la liste des AS voisins de",
                       self.parent_AS, " il a été rajouté")
-            new_interface = Interface(interface_name,
-                                      self.parent_AS.AS_neighbors_peering_prefixes[neighbor_router.parent_AS.AS_number],
-                                      self, neighbor_router)
+                new_interface = Interface(interface_name,
+                                          self.parent_AS.AS_neighbors_peering_prefixes[
+                                              neighbor_router.parent_AS.AS_number],
+                                          self, neighbor_router)
         else:
             new_interface = Interface(interface_name, self.parent_AS.AS_prefix, self, neighbor_router)
         self.interfaces.append(new_interface)
@@ -149,13 +150,13 @@ class Interface:
             self.ip_prefix = "FFFF::/16"
 
         self.parent_router = parent_router
-        if neighbor_router:
+        if neighbor_router is not None:
             self.neighbor_router = neighbor_router
             self.multi_AS = parent_router.parent_AS.AS_number != neighbor_router.parent_AS.AS_number
 
     # construction de l'IP selon notre nomenclature un peu trop compliquée (définie dans readme)
     def craft_ip(self):
-        if self.neighbor_router:
+        if self.neighbor_router is not None:
             debut_masque = self.ip_prefix.index("/")
             masque = int(self.ip_prefix[(debut_masque + 1):])
 
@@ -173,13 +174,16 @@ class Interface:
             bloc_intname = self.name if self.name != "0" else "10"
 
             self.ip = self.ip_prefix[
-                      :debut_masque - 1] + bloc_prefix + "::" + bloc_hostname + ":" + bloc_intname + "/" + str(
+                      :debut_masque - 1] + bloc_prefix + "::" + str(bloc_hostname) + ":" + bloc_intname + "/" + str(
                 masque + 16)
             print("Craft IP : l'interface " + self.name + " du routeur " + str(
                 self.parent_router.router_hostname) + " a l'IP " + self.ip)
         else:
             print("Erreur craft_ip : aucun routeur voisin sur l'interface",
                   self.name + ". Pour une interface loopback utiliser LoopbackInterface")
+
+    def __repr__(self):
+        return "(0/"+self.name+","+self.ip_prefix+")"
 
 
 # l'ip est créée dès la création de l'interface
