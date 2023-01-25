@@ -40,7 +40,14 @@ with shelve.open(obj_path) as obj:
     # generate all AS objects
     for as_num in obj['as_number_list']:  # ignore warning, obj['as_number_list'] is a list
         temp = charge_as(obj['as_' + str(as_num)])
-        exec('as_{}_obj = {}'.format(as_num, temp.__dict__))
+        as_test = temp  # no error doing this
+        print(type(as_test))
+        print(type(as_test.__dict__))
+        as_1_obj = "as_{}_obj = {}".format(as_num, temp)
+        print("as_{}_obj = {}".format(as_num, temp))
+        exec("as_{}_obj = {}".format(as_num, temp).replace('<', '\<').replace('>', '\>'))
+        # exec("as_{}_obj = {}".format(as_num, temp.__dict__))  # no error but as_{}_obj now is class 'dict'
+        # https://stackoverflow.com/questions/75228755/syntax-error-with-exec-call-to-an-object-in-python-3
     # print(as_1_obj, '\n', as_2_obj)  # test ok
 
     # generate all Router objects
@@ -48,12 +55,11 @@ with shelve.open(obj_path) as obj:
         temp_len = len(obj['routers_as_' + str(as_num)])
         for router_num in range(temp_len):
             # ignore warning, obj['router_number_list'] is a list
-            # temp_router_num = obj['routers_as_' + str(as_num)][(as_num - 1) * 7 + router_num - 1]
             temp_router_num = obj['routers_as_' + str(as_num)][router_num]  # ignore warning
             # print(temp_router_num)
             # temp = charge_router(temp_router_num, None)  # "as_{}_obj".format(as_num))
             exec("temp = charge_router(temp_router_num, as_{}_obj)".format(as_num))
-            # exec('print(as_{}_obj, end=" ")'.format(as_num))
+            exec('print(type(as_{}_obj), end=" ")'.format(as_num))
             print(temp.__dict__)
 
     # generate all ASBR objects
