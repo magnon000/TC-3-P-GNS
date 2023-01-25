@@ -1,4 +1,5 @@
 from instruments import *
+import drag_and_drop
 
 # # TEST 1
 # #      AS1         AS2
@@ -106,5 +107,7 @@ routeur7.description()
 
 as1.description()
 
+routeurs = [routeur1, routeur2, routeur3, routeur4, routeur5, routeur6, routeur7]
 
-
+for routeur in routeurs:
+    drag_and_drop.total_router_configuration(routeur, drag_and_drop.initialize_default_blocs())
