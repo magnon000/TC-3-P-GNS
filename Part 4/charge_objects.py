@@ -42,7 +42,10 @@ with shelve.open(obj_path) as obj:
         temp = charge_as(obj['as_' + str(as_num)])
         as_test = temp  # no error doing this
         print(type(as_test))
-        exec("as_{}_obj = {}".format(as_num, temp))
+        print(type(as_test.__dict__))
+        as_1_obj = "as_{}_obj = {}".format(as_num, temp)
+        print("as_{}_obj = {}".format(as_num, temp))
+        exec("as_{}_obj = {}".format(as_num, temp).replace('<', '\<').replace('>', '\>'))
         # exec("as_{}_obj = {}".format(as_num, temp.__dict__))  # no error but as_{}_obj now is class 'dict'
         # https://stackoverflow.com/questions/75228755/syntax-error-with-exec-call-to-an-object-in-python-3
     # print(as_1_obj, '\n', as_2_obj)  # test ok
