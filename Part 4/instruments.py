@@ -32,11 +32,11 @@ class AS:
         for router in self.routers:
             router.craft_ip_on_all_interfaces()
 
-    def get_router_by_hostname(self,hostname):
+    def get_router_by_hostname(self, hostname):
         for routeur in self.routers:
             if routeur.router_hostname == hostname:
                 return routeur
-        print("Erreur get_router_by_hostname: le routeur "+str(hostname)+" n'est pas dans l'AS "+self.AS_number)
+        print("Erreur get_router_by_hostname: le routeur " + str(hostname) + " n'est pas dans l'AS " + self.AS_number)
 
     def get_sorted_list_of_routers(self):
         sorted_routers = self.routers
@@ -68,7 +68,6 @@ class Router:
         self.interfaces = []
         if parent_as:
             parent_as.add_router(self)
-
 
     def __len__(self):
         pass  # todo: method here
@@ -106,7 +105,7 @@ class Router:
         for interface in self.interfaces:
             if interface.name == name:
                 return interface
-        print("Erreur: le routeur "+str(self.router_hostname)+" n'a aucune interface 0/"+name)
+        print("Erreur: le routeur " + str(self.router_hostname) + " n'a aucune interface 0/" + name)
 
     def get_sorted_list_of_interfaces(self):
         sorted_interfaces = self.interfaces
@@ -168,23 +167,11 @@ class ASBR(Router):
 
 
 class Interface:
-    def __init__(self, number: int, ip_prefix, parent_router, neighbor_router):
+    def __init__(self, number: int, ip_prefix: str, parent_router: Router, neighbor_router: Router):
         self.ip = None
         self.name = str(number)
         self.ip_prefix = ip_prefix
         self.parent_router = parent_router
-
-        """mal géré mais tant pis c'est déjà trop le bazar: 
-        si pas de ip_prefix, on considère que c'est une interface de peering avec un autre AS 
-        qui n'a pas de peering prefix spécifié et pareil en face 
-        (le routeur avec qui on est connecté n'a pas de peering prefix spécifié avec nous)
-        aucune autre raison supportée pour laquelle l'ip_prefix serait de"""
-        # if ip_prefix:
-        #     self.ip_prefix = ip_prefix
-        # else:
-        #     self.ip_prefix = "FFFF::/16"
-
-        # if neighbor_router:
         self.neighbor_router = neighbor_router  # config in JSON, don't know neighbor router: value=None
         self.multi_AS = parent_router.parent_AS.AS_number != neighbor_router.parent_AS.AS_number
 
@@ -217,7 +204,7 @@ class Interface:
                   self.name + ". Pour une interface loopback utiliser LoopbackInterface")
 
     def __repr__(self):
-        return "(0/"+self.name+","+self.ip_prefix+")"    # ATTENTION ça print que le préfixe
+        return "(0/" + self.name + "," + self.ip_prefix + ")"  # ATTENTION ça print que le préfixe
 
 
 # l'ip est créée dès la création de l'interface
@@ -234,6 +221,4 @@ class LoopbackInterface(Interface):
         pass
 
     def __repr__(self):
-        return "("+self.name+","+self.ip+")"   # print l'ip entière (car créée dans __init__ donc existe sûr)
-
-
+        return "(" + self.name + "," + self.ip + ")"  # print l'ip entière (car créée dans __init__ donc existe sûr)
