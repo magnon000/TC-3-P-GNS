@@ -76,16 +76,18 @@ with shelve.open(obj_path) as obj:
             interface_num_temp = one_neighbor_dict['interface']  # var: number
             neighbor_num = one_neighbor_dict['neighbor-number']  # for neighbor router and ip prefix
             exec("temp_neighbor_obj = router_{}_obj".format(neighbor_num))
-            as_num = temp_parent_router.parent_AS.AS_number
+            as_num = temp_parent_router.parent_AS.AS_number  # ignore error, var temp_parent_router in exec()
             as_num = int(as_num)  # AS_number: str in class AS
             if router_num < neighbor_num:  # calcul ip prefix
                 ip_prefix_temp = "{}:{}{}::/32".format(as_num, router_num, neighbor_num)
             else:
                 ip_prefix_temp = "{}:{}{}::/32".format(as_num, neighbor_num, router_num)
-            exec("inter_{}_{}_{}_obj=charge_interface(interface_num_temp, ip_prefix_temp, temp_parent_router, temp_neighbor_obj)"
+            exec("inter_{}_{}_{}_obj="
+                 "charge_interface(interface_num_temp, ip_prefix_temp, temp_parent_router, temp_neighbor_obj)"
                  .format(router_num, interface_num_temp, neighbor_num))
             exec("print(inter_{}_{}_{}_obj)".format(router_num, interface_num_temp, neighbor_num))
-
+# todo: del temp var
+# todo: self.routers = [] charge AS object with list[object]
 
 # if __name__ == '__main__':
 #     obj_path = ask_obj_path()
