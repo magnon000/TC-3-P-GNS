@@ -44,11 +44,11 @@ class AS:
         return sorted_routers
 
     # pour rapidement print la classe
-    def __str__(self):
-        return "(AS " + self.AS_number + ")"
-
-    def __repr__(self):
-        return "(AS " + self.AS_number + ")"
+    # def __str__(self):
+    #     return "(AS " + self.AS_number + ")"
+    #
+    # def __repr__(self):
+    #     return "(AS " + self.AS_number + ")"
 
     def description(self):
         print("------------------")
@@ -61,13 +61,13 @@ class AS:
 
 
 class Router:
-    def __init__(self, num: int, parent_as: object = None):
+    def __init__(self, num: int, parent_as: AS = None):
         self.router_hostname = num
         self.router_ID = str(num) + 3 * ("." + str(num))  # anticipation OSPF
         self.parent_AS = parent_as
         self.interfaces = []
         if parent_as:
-            AS.add_router(parent_as, self.__dict__)
+            AS.add_router(parent_as, self)
 
     def __len__(self):
         pass  # todo: method here
