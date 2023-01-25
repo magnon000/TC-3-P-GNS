@@ -1,7 +1,6 @@
 from tkinter import filedialog
 import shelve
 from instruments import *
-from itertools import product
 
 
 # todo: if we want to generate multiple networks, after each write, del objects is needed
@@ -39,28 +38,21 @@ obj_path = ask_obj_path()
 with shelve.open(obj_path) as obj:
     # generate all AS objects
     for as_num in obj['as_number_list']:  # ignore warning, obj['as_number_list'] is a list
-        temp = charge_as(obj['as_' + str(as_num)])
-        as_test = temp  # no error doing this
-        print(type(as_test))
-        print(type(as_test.__dict__))
-        as_1_obj = "as_{}_obj = {}".format(as_num, temp)
-        print("as_{}_obj = {}".format(as_num, temp))
-        exec("as_{}_obj = {}".format(as_num, temp).replace('<', '\<').replace('>', '\>'))
-        # exec("as_{}_obj = {}".format(as_num, temp.__dict__))  # no error but as_{}_obj now is class 'dict'
-        # https://stackoverflow.com/questions/75228755/syntax-error-with-exec-call-to-an-object-in-python-3
-    # print(as_1_obj, '\n', as_2_obj)  # test ok
+        temp_obj = charge_as(obj['as_' + str(as_num)])  # to avoid python escape characters
+        exec("as_{}_obj = temp_obj".format(as_num))
+        # exec("print(as_{}_obj)".format(as_num))
 
     # generate all Router objects
+    router_num_count = 0
     for as_num in obj['as_number_list']:
-        temp_len = len(obj['routers_as_' + str(as_num)])
-        for router_num in range(temp_len):
-            # ignore warning, obj['router_number_list'] is a list
-            temp_router_num = obj['routers_as_' + str(as_num)][router_num]  # ignore warning
-            # print(temp_router_num)
-            # temp = charge_router(temp_router_num, None)  # "as_{}_obj".format(as_num))
-            exec("temp = charge_router(temp_router_num, as_{}_obj)".format(as_num))
-            exec('print(type(as_{}_obj), end=" ")'.format(as_num))
-            print(temp.__dict__)
+        temp_len = len(obj['routers_as_' + str(as_num)])  # ignore warning, obj['router_number_list'] is a list
+        for router_index in range(temp_len):
+            temp_router_dict = obj['routers_as_' + str(as_num)][router_index]  # to avoid python escape characters
+            exec("router_{}_obj = charge_router(temp_router_dict, as_{}_obj)"
+                 .format(obj['router_number_list'][router_num_count], as_num))
+            router_num_count += 1
+            # exec("print(router_{}_obj)".format(router_num_count))
+    del router_num_count
 
     # generate all ASBR objects
 

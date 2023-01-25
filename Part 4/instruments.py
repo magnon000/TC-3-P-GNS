@@ -44,11 +44,11 @@ class AS:
         return sorted_routers
 
     # pour rapidement print la classe
-    # def __str__(self):
-    #     return "(AS " + self.AS_number + ")"
-    #
-    # def __repr__(self):
-    #     return "(AS " + self.AS_number + ")"
+    def __str__(self):
+        return "(AS " + self.AS_number + ")"
+
+    def __repr__(self):
+        return "(AS " + self.AS_number + ")"
 
     def description(self):
         print("------------------")
