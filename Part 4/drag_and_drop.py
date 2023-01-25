@@ -1,4 +1,4 @@
-from charge_objects import *
+#from charge_objects import *
 from instruments import *
 import datetime
 import os
@@ -58,9 +58,9 @@ def bloc_interfaces(routeur: Router):
     resultat += exclamation(1)
 
     #les autres interfaces
-    max_interface = max(interfaces_names)
-    for i in range(0,max_interface):
-        resultat += "interface GigabitEthernet0/" + i + "\n"
+    max_interface = int(max(interfaces_names))
+    for i in range(0, max_interface):
+        resultat += "interface GigabitEthernet0/" + str(i) + "\n"
         if str(i) in interfaces_names:
             interface = routeur.get_interface_by_name(i)
 
@@ -80,6 +80,9 @@ def bloc_interfaces(routeur: Router):
         else:
             resultat += " no ip address\n shutdown\n negotiation auto\n"
         exclamation(1)
+
+    print(resultat)
+    return resultat
 
 
 def bloc_bgp(routeur):
@@ -143,11 +146,13 @@ def bloc_intradom(routeur):
 
 
 def total_router_configuration(router, default):
-    result_file = open("i" + str(router.router_hostname) + "_startup-config.cfg", "x")
     everything = "!\n ! Configuré automatiquement le " + str(datetime.datetime.now()) + " \n!\n"
     everything += ""
-
     new_file_name = "i" + str(router.router_hostname) + "_startup-config.cfg"
+    try:
+        os.remove(new_file_name)
+    except OSError:
+        pass
     with open(new_file_name, "x") as result_file:
         everything += default["BLOC 1"]
         everything += exclamation(1)
@@ -165,7 +170,8 @@ def total_router_configuration(router, default):
         everything += default["BLOC 4"]
         everything += exclamation(5)
 
-    return everything
+    result_file.write(everything)
+    print(everything)
 
 
 default_blocs = initialize_default_blocs()
