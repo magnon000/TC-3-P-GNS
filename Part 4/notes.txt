@@ -4,10 +4,12 @@
 
 - contrainte : peering prefix le même pour toutes les liaison d'un couple d'AS => ne supporte pas 2 interfaces vers le même routeur du même AS voisin
 
-- contrainte : peering prefix de l'AS A vers l'AS B le même que de l'AS B vers l'AS A (PAS vérifié automatiquement par le script)
+- contrainte : peering prefix de l'AS A vers l'AS B le même que de l'AS B vers l'AS A (PAS vérifié automatiquement par le script) EXTREMEMENT IMPORTANT
 
 - contrainte : une interface ne peut pas exister sans routeur (routeur parent nécessaire au constructeur)
 
 - contrainte : 1 seule protocole intra domaine par AS qui relie FORCEMENT tous les routeurs de l'AS
 
 - contrainte : peering prefix entre 2 as à spécifier obligatoirement (long bloc de commentaire qui dit l'inverse dans instruments.py mais c'est pour si jamais on a le temps)
+
+- contrainte pour lecteur du code : instruments.py très sale, fonction add_interface_from_neighbor_router() dans ASBR TRES TRES TRES BANCALE FAIRE TRES ATTENTION
