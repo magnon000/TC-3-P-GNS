@@ -35,11 +35,13 @@ def petite_ligne_interface_protocole(protocole, routeur):
     elif protocole == "ospf":
         return " ipv6 ospf" + routeur.parent_AS.AS_number + "area 0\n"
 
-def bloc_interfaces(protocole, routeur: object):
+
+def bloc_interfaces(routeur: Router):
+    protocole = routeur.parent_AS.intradomain_protocol
     resultat = "!\n"
     liste_interfaces = routeur.get_sorted_list_of_interfaces()
     if len(routeur.interfaces) == 0:
-        print("Erreur config generation : le routeur " + routeur.router_hostname + " n'a pas d'interfaces")
+        print("Erreur config generation : le routeur " + str(routeur.router_hostname) + " n'a pas d'interfaces")
         return "Err"
     interfaces_names = [interface.name for interface in liste_interfaces]
 
@@ -80,10 +82,69 @@ def bloc_interfaces(protocole, routeur: object):
         exclamation(1)
 
 
+def bloc_bgp(routeur):
+    # partie neighbor
+    name = str(routeur.router_hostname)
+    protocole = str(routeur.parent_AS.intradomain_protocol)
+    as_num = str(routeur.parent_AS.AS_number)
+    resultat = ""
+    resultat += "routeur bgp "+str(as_num)+"\n bgp routeur-id "+routeur.router_ID+"\n bgp log-neighbor-changes\n"
+    resultat += " no bgp default ipv4-unicast\n"
+    for other_router in routeur.parent_AS.routers:
+        if other_router.router_hostname != name:
+            loopback_address = other_router.get_interface_by_name("lo0").ip_no_mask
+            resultat += " neighbor " + loopback_address + " remote-as " + as_num + "\n"
+            resultat += " neighbor " + loopback_address + " update-source Loopback0\n"
+    if routeur.is_asbr():
+        for interface in routeur.interfaces:
+            if interface.multi_AS:
+                neigh_address = interface.corresponding_interface().ip_no_mask
+                resultat += " neighbor " + neigh_address + " remote-as " + str(interface.parent_AS.AS_number) + "\n "
+    resultat += exclamation(1)
+
+    # partie address-family
+    resultat += " address-family ipv4\n exit-address-family\n "
+    resultat += exclamation(1)+" address-family ipv6\n"
+    if protocole=="rip":
+        resultat += "  redistribute rip AS"+as_num+"rip\n"
+    else:
+        resultat += "  redistribute ospf "+as_num
+
+    for interface in routeur.interfaces:
+        if interface.is_loopback():
+            resultat += "  network " + interface.ip+"\n"
+        elif interface.parent_router.parent_AS.AS_number == routeur.parent_AS.AS_number:
+            resultat += "  network " + interface.ip_prefix+"\n"
+
+    resultat += "  aggregate-address "+routeur.parent_AS.as_prefix+" summary-only"
+
+    for other_router in routeur.parent_AS.routers:
+        if other_router.router_hostname != name:
+            loopback_address = other_router.get_interface_by_name("lo0").ip_no_mask
+            resultat += "  neighbor " + loopback_address + " activate\n"
+    if routeur.is_asbr():
+        for interface in routeur.interfaces:
+            if interface.multi_AS:
+                neigh_address = interface.corresponding_interface().ip_no_mask
+                resultat += "  neighbor " + neigh_address + " activate " + str(interface.parent_AS.AS_number) + "\n"
+    resultat += " exit-address-family\n !\n"
+
+    return resultat
+
+
+def bloc_intradom(routeur):
+    name = str(routeur.router_hostname)
+    protocole = str(routeur.parent_AS.intradomain_protocol)
+    as_num = str(routeur.parent_AS.AS_number)
+    resultat = ""
+    if protocole=="rip":
+        resultat += "ipv6 routeur rip AS"+as_num+"rip\n redistribute connected\n!\n"
+    return resultat
+
 
 def total_router_configuration(router, default):
     result_file = open("i" + str(router.router_hostname) + "_startup-config.cfg", "x")
-    everything = "!\n ! Configuré automatiquement le " + datetime.datetime.now() + " \n!\n"
+    everything = "!\n ! Configuré automatiquement le " + str(datetime.datetime.now()) + " \n!\n"
     everything += ""
 
     new_file_name = "i" + str(router.router_hostname) + "_startup-config.cfg"
@@ -94,13 +155,13 @@ def total_router_configuration(router, default):
         everything += exclamation(1)
         everything += default["BLOC 2"]
         everything += exclamation(1)
-        everything += bloc_interfaces(intra_protocole, router)
+        everything += bloc_interfaces(router)
         everything += exclamation(1)
-        everything += bloc_bgp(intra_protocole, router)
+        everything += bloc_bgp(router)
         everything += exclamation(1)
         everything += default["BLOC 3"]
         everything += exclamation(1)
-        everything += bloc_intradom(intra_protocole, router)
+        everything += bloc_intradom(router)
         everything += default["BLOC 4"]
         everything += exclamation(5)
 
