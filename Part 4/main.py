@@ -27,13 +27,19 @@ routeur3 = ASBR(3, astest2)
 interface1 = Interface("0", "1::/16", routeur1, routeur2)
 routeur1.add_existing_interfaces(interface1)
 
+print("add_interface_from_neighbor_router au routeur2 en ajoutant le routeur 1:")
 routeur2.add_interface_from_neighbor_router("0", routeur1)
 
+print("add_interface_from_neighbor_router au routeur3 en ajoutant le routeur 2:")
 routeur3.add_interface_from_neighbor_router("0", routeur2)
 
+print("add_interface_from_neighbor_router au routeur2 en ajoutant le routeur 3:")
 routeur2.add_interface_from_neighbor_router("1", routeur3)
 
+print("add_loopback_interface au routeur 2:")
 routeur2.add_loopback_interface()
+
+print(astest1.routers[0])
 
 astest1.description()
 astest2.description()

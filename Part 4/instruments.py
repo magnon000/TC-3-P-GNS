@@ -66,8 +66,11 @@ class Router:
         self.router_ID = str(num) + 3 * ("." + str(num))  # anticipation OSPF
         self.parent_AS = parent_as
         self.interfaces = []
+        # if parent_as:
+        #     AS.add_router(parent_as, self.__dict__)
         if parent_as:
-            AS.add_router(parent_as, self.__dict__)
+            parent_as.add_router(self)
+
 
     def __len__(self):
         pass  # todo: method here
@@ -86,7 +89,6 @@ class Router:
         self.interfaces.append(new_interface)
 
     def craft_ip_on_all_interfaces(self):
-        # if self.interfaces.len == 0:
         if len(self.interfaces) == 0:
             print("Erreur craft_ip_on_all_interfaces() : aucune interface dans le routeur", self.router_hostname)
         else:
@@ -163,6 +165,7 @@ class Interface:
         self.name = str(number)
         self.ip_prefix = ip_prefix
         self.parent_router = parent_router
+        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHH l'interface",self.name,"du routeur",self.parent_router,"a une ip prefix de ",self.ip_prefix)
 
         """mal géré mais tant pis c'est déjà trop le bazar: 
         si pas de ip_prefix, on considère que c'est une interface de peering avec un autre AS 
@@ -207,14 +210,15 @@ class Interface:
                   self.name + ". Pour une interface loopback utiliser LoopbackInterface")
 
     def __repr__(self):
-        return "(0/" + self.name + "," + self.ip_prefix + ")"
         return "(0/"+self.name+","+self.ip_prefix+")"    # ATTENTION ça print que le préfixe
 
 
 # l'ip est créée dès la création de l'interface
 class LoopbackInterface(Interface):
     def __init__(self, ip_prefix, parent_router):
-        super().__init__("lo0", ip_prefix, parent_router)
+        self.name = "lo0"
+        self.ip_prefix = ip_prefix
+        self.parent_router = parent_router
         debut_masque = self.ip_prefix.index("/")
         longueur_hostname = len(str(self.name))
         self.ip = self.ip_prefix[:debut_masque] + str(parent_router.router_hostname) + "/128"
