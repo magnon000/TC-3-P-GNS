@@ -2,6 +2,7 @@
 from instruments import *
 import datetime
 import os
+import shutil
 
 
 def exclamation(nombre):
@@ -28,6 +29,7 @@ def initialize_default_blocs():
         result_dict["BLOC 4"] = "".join(line for line in default_parts_list[(debut_bloc4 + 1):fin_bloc4])
 
     return result_dict
+
 
 def petite_ligne_interface_protocole(protocole, routeur):
     if protocole == "rip":
@@ -151,10 +153,10 @@ def bloc_intradom(routeur):
 def total_router_configuration(router, default):
     everything = "!\n! Configuré automatiquement le " + str(datetime.datetime.now()) + " \n!\n"
     everything += ""
-    new_file_name = "i" + str(router.router_hostname) + "_startup-config.cfg"
+    new_file_name = "autoconfig-result/i" + str(router.router_hostname) + "_startup-config.cfg"
     try:
         os.remove(new_file_name)
-    except OSError:
+    except FileNotFoundError:
         pass
     with open(new_file_name, "x") as result_file:
         everything += default["BLOC 1"]
@@ -176,5 +178,12 @@ def total_router_configuration(router, default):
         result_file.write(everything)
 
 
+try:
+    shutil.rmtree("./autoconfig-result")
+except OSError:
+    pass
+
+os.mkdir("./autoconfig-result")
 
 default_blocs = initialize_default_blocs()
+
