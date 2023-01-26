@@ -43,6 +43,19 @@ class AS:
         sorted_routers.sort(key=lambda routeur: routeur.router_hostname)
         return sorted_routers
 
+    # pas très joli (aurait du être géré automatiquement)
+    # mais ça peut être utile si un jour on utilise la liste des gateways
+    # à lancer lorsque tous les voisins sont connus avec au moins 1 gateway
+    def update_gateways(self):
+        for routeur in self.routers:
+            if routeur.is_asbr():
+                for interface in routeur.interfaces:
+                    if (not interface.is_loopback()) and interface.multi_AS:
+                        as_neigh = interface.neighbor_router.parent_AS.AS_number
+                        if routeur not in self.AS_neighbors[as_neigh]:
+                            self.AS_neighbors[as_neigh].append(routeur)
+
+
     # pour rapidement print la classe
     def __str__(self):
         return "(AS " + self.AS_number + ")"
@@ -139,6 +152,9 @@ class ASBR(Router):
     # Conseillé de créer l'ASBR avec un AS parent... NON, OBLIGATOIRE SINON NE FONCTIONNE PAS
     def __init__(self, num, parent_as):
         super().__init__(num, parent_as)
+
+    def add_existing_interfaces(self, interface):
+        self.interfaces.append(interface)
 
     # fonction très mal faite mais trop avancée pour changer : SI ROUTEUR D'UN NOUVEL AS, PRECISER PEERING PREFIX (il
     # sera ajouté dans la liste des peering prefixes de l'AS parent
