@@ -87,3 +87,4 @@ if __name__ == '__main__':
             print(ele)
         print(test['asbr_as_2'])
         print(test['neighbor_router_14'])
+        print(test['neighbor_as_1'])

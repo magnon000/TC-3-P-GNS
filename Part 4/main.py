@@ -166,6 +166,7 @@ routeur13.description()
 routeur14.description()
 
 as1.description()
+print(as1.__dict__)
 as2.description()
 
 routeurs = [routeur1, routeur2, routeur3, routeur4, routeur5, routeur6, routeur7,

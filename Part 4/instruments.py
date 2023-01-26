@@ -241,8 +241,7 @@ class Interface:
 
 # l'ip est créée dès la création de l'interface
 class LoopbackInterface(Interface):
-    def __init__(self, ip_prefix, parent_router, number: int, neighbor_router: Router):
-        super().__init__(number, ip_prefix, parent_router, neighbor_router)
+    def __init__(self, ip_prefix, parent_router):
         self.name = "lo0"
         self.ip_prefix = ip_prefix
         self.parent_router = parent_router
