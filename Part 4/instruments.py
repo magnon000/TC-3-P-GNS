@@ -249,7 +249,7 @@ class LoopbackInterface(Interface):
         debut_masque = self.ip_prefix.index("/")
         longueur_hostname = len(str(self.name))
         self.ip = self.ip_prefix[:debut_masque] + str(parent_router.router_hostname) + "/128"
-        self.ip_no_mask = self.ip_prefix[:debut_masque]
+        self.ip_no_mask = self.ip_prefix[:debut_masque] + str(parent_router.router_hostname)
 
     def craft_ip(self):
         pass
