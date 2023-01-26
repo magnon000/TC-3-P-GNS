@@ -77,12 +77,14 @@ class Router:
         self.interfaces.append(interface)
 
     # overidée dans la classe héritée ASBR (car comportement différent)
+    # todo: not used in charge_objects
     def add_interface_from_neighbor_router(self, interface_name, neighbor_router):
         new_interface = Interface(interface_name, self.parent_AS.AS_prefix, self, neighbor_router)
         self.interfaces.append(new_interface)
 
     # paramètre dict: clé = interface name, élement = routeur
     # Ne pas utiliser pour les ASBR (héritée)
+    # todo: not used in charge_objects
     def add_many_interfaces_from_routers(self, routeurs: dict):
         for interface in routeurs:
             self.add_interface_from_neighbor_router(interface, routeurs[interface])
@@ -169,10 +171,10 @@ class ASBR(Router):
         self.interfaces.append(new_interface)
 
     def __str__(self):
-        return "(ASBR: N°" + str(self.router_hostname) + ")"
+        return "(ASBR: " + str(self.router_hostname) + ")"
 
     def __repr__(self):
-        return "(ASBR: N°" + str(self.router_hostname) + ")"
+        return "(ASBR: " + str(self.router_hostname) + ")"
 
     def is_asbr(self):
         return True
@@ -182,7 +184,7 @@ class Interface:
     def __init__(self, number: int, ip_prefix: str, parent_router: Router, neighbor_router: Router):
         self.ip = None
         self.name = str(number)
-        self.ip_prefix = ip_prefix
+        self.ip_prefix = ip_prefix  # AS_prefix, not subnetwork prefix !
         self.parent_router = parent_router
         self.ip_no_mask = None # créé après craft_ip()
         self.neighbor_router = neighbor_router  # config in JSON, don't know neighbor router: value=None
@@ -214,8 +216,8 @@ class Interface:
                       :debut_masque - 1] + bloc_prefix + "::" + str(bloc_hostname) + ":" + bloc_intname
             self.ip_prefix = self.ip_prefix[
                       :debut_masque - 1] + bloc_prefix + "::/" + str(masque + 16)
-            print("Craft IP : l'interface " + self.name + " du routeur " + str(
-                self.parent_router.router_hostname) + " a l'IP " + self.ip)
+            # print("Craft IP : l'interface " + self.name + " du routeur " + str(
+            #     self.parent_router.router_hostname) + " a l'IP " + self.ip)
         else:
             print("Erreur craft_ip : aucun routeur voisin sur l'interface",
                   self.name + ". Pour une interface loopback utiliser LoopbackInterface")
@@ -239,7 +241,8 @@ class Interface:
 
 # l'ip est créée dès la création de l'interface
 class LoopbackInterface(Interface):
-    def __init__(self, ip_prefix, parent_router):
+    def __init__(self, ip_prefix, parent_router, number: int, neighbor_router: Router):
+        super().__init__(number, ip_prefix, parent_router, neighbor_router)
         self.name = "lo0"
         self.ip_prefix = ip_prefix
         self.parent_router = parent_router
