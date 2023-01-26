@@ -35,7 +35,7 @@ def charge_interface(interface_num, ip_prefix: str, parent_router: Router, neigh
                      neighbor_router=neighbor_router)
 
 
-# dynamic naming (ex. as_1_obj, router_1_obj, asbr_6_obj(router6), inter_1_0_obj)
+# dynamic naming (ex. as_1_obj, router_1_obj, asbr_6_obj(router6), inter_1_0_2_obj)
 shelve_path_empty = True  # avoid empty filename
 while shelve_path_empty:
     obj_path = ask_shelve_path()
@@ -62,19 +62,11 @@ with shelve.open(obj_path) as obj:
             # exec("print(router_{}_obj)".format(router_num_count))
     del router_num_count, temp_router_dict
 
-    # generate all ASBR objects # todo: del corresponding Router object of parent class or not?
-    for as_num in obj['as_number_list']:
-        for temp_dict in obj['asbr_as_' + str(as_num)]:
-            temp_asbr_num = temp_dict['router-number']  # to avoid python escape characters
-            exec("asbr_{}_obj = temp_dict".format(temp_asbr_num))
-            # exec("print(asbr_{}_obj)".format(temp_asbr_num))
-        del temp_asbr_num
-
     # generate all Interface objects (naming scheme: inter_<No.Router>_<No.Interface>_<No.Neighbor_Router>_obj)
     for router_num in obj['router_number_list']:  # ex. in range(1,14)
-        """ex. 1.router 1-14; 2.interface 0-3; 3.neighbor router according to interfaces' order; 4. calcul ip"""
+        """ex. 1.router 1-14; 2.interface 0-3; 3.neighbor router according to interfaces' order; 4. calcul AS prefix"""
         exec("temp_parent_router = router_{}_obj".format(router_num))  # var: parent_router: object
-        print(temp_parent_router)  # ignore error, var temp_parent_router in exec()
+        # print(temp_parent_router)  # ignore error, var temp_parent_router in exec()
         for one_neighbor_dict in obj['neighbor_router_' + str(router_num)]:
             # ex. in [{'neighbor-number': 12, 'interface': 0}, {'neighbor-number': 13, 'interface': 1}] for R14
             interface_num_temp = one_neighbor_dict['interface']  # var: number
@@ -82,19 +74,48 @@ with shelve.open(obj_path) as obj:
             exec("temp_neighbor_obj = router_{}_obj".format(neighbor_num))
             as_num = temp_parent_router.parent_AS.AS_number
             as_num = int(as_num)  # AS_number: str in class AS
-            if router_num < neighbor_num:  # calcul ip prefix
-                ip_prefix_temp = "{}:{}{}::/32".format(as_num, router_num, neighbor_num)
-            else:
-                ip_prefix_temp = "{}:{}{}::/32".format(as_num, neighbor_num, router_num)
+            # if router_num < neighbor_num:  # calcul subnet IP prefix
+            #     ip_prefix_temp = "{}:{}{}::/32".format(as_num, router_num, neighbor_num)
+            # else:
+            #     ip_prefix_temp = "{}:{}{}::/32".format(as_num, neighbor_num, router_num)
+            ip_prefix_temp = "{}::/16".format(as_num)
             exec("inter_{}_{}_{}_obj="
                  "charge_interface(interface_num_temp, ip_prefix_temp, temp_parent_router, temp_neighbor_obj)"
                  .format(router_num, interface_num_temp, neighbor_num))
-            exec("print(inter_{}_{}_{}_obj)".format(router_num, interface_num_temp, neighbor_num))
-        del interface_num_temp, neighbor_num, as_num, ip_prefix_temp
-    del temp_parent_router
+            # exec("print(inter_{}_{}_{}_obj)".format(router_num, interface_num_temp, neighbor_num))
 
-# todo: self.routers = [] charge AS object with list[object]
-# todo: craft_ip
+            # add object Interface (on one router) to object Router.interfaces list (on the router)
+            exec("router_{}_obj.add_existing_interfaces(inter_{}_{}_{}_obj)"
+                 .format(router_num, router_num, interface_num_temp, neighbor_num))
+    del interface_num_temp, neighbor_num, as_num, ip_prefix_temp, temp_parent_router
+
+    # add all interfaces, craft IP address
+    for router_num in obj['router_number_list']:
+        exec("router_{}_obj.craft_ip_on_all_interfaces()".format(router_num))
+
+    # add object Interface (neighbors') to object Router.interfaces list
+    for router_num in obj['router_number_list']:
+        for one_neighbor_dict in obj['neighbor_router_' + str(router_num)]:
+            interface_num_temp = one_neighbor_dict['interface']  # var: number
+            neighbor_num = one_neighbor_dict['neighbor-number']  # for neighbor router and ip prefix
+            exec("router_{}_obj.add_existing_interfaces(inter_{}_{}_{}_obj)"
+                 .format(neighbor_num, router_num, interface_num_temp, neighbor_num))
+    del interface_num_temp, neighbor_num
+    # for router_num in obj['router_number_list']:
+    #     exec("print(router_{}_obj.__dict__)".format(router_num))
+
+    # generate all ASBR objects
+    for as_num in obj['as_number_list']:
+        for temp_dict in obj['asbr_as_' + str(as_num)]:
+            temp_asbr_num = temp_dict['router-number']  # to avoid python escape characters
+            exec("asbr_{}_obj = ASBR(router_{}_obj, as_{}_obj)".format(temp_asbr_num, temp_asbr_num, as_num))
+            # exec("print(asbr_{}_obj)".format(temp_asbr_num))
+    del temp_asbr_num
+
+print(as_1_obj.__dict__)
+# todo: loopback
+# todo: AS.neighbor, AS.peering_prefixs
+
 
 # if __name__ == '__main__':
 #     obj_path = ask_shelve_path()
