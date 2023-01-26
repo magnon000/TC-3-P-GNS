@@ -1,5 +1,5 @@
 """
-handle JSON read, Python persistent object save, config.cfg save
+handle JSON read, Python persistent object save
 """
 import json
 import shelve
@@ -70,7 +70,7 @@ def save_obj(obj_name: str, write_data: tuple, as_num_list, router_num_list) -> 
 
 if __name__ == '__main__':
     json_path = ask_json_file()
-    save_path_empty = True  # avoid empty number
+    save_path_empty = True  # avoid empty filename
     while save_path_empty:
         save_path = ask_obj_path()
         if save_path:

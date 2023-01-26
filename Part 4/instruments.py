@@ -229,9 +229,9 @@ class Interface:
 
     def __repr__(self):
         if self.ip is None:
-            return "(0/" + self.name + "," + self.ip_prefix + ")"
+            return "(g" + self.name + '/0' + "," + self.ip_prefix + ")"
         else:
-            return "(0/" + self.name + "," + self.ip + ")"
+            return "(g" + self.name + '/0' + "," + self.ip + ")"
 
     def is_loopback(self):
         return False
