@@ -33,7 +33,7 @@ def petite_ligne_interface_protocole(protocole, routeur):
     if protocole == "rip":
         return " ipv6 rip AS" + routeur.parent_AS.AS_number + "rip enable\n"
     elif protocole == "ospf":
-        return " ipv6 ospf" + routeur.parent_AS.AS_number + "area 0\n"
+        return " ipv6 ospf " + routeur.parent_AS.AS_number + " area 0\n"
 
 
 def bloc_interfaces(routeur: Router):
@@ -58,30 +58,30 @@ def bloc_interfaces(routeur: Router):
     resultat += exclamation(1)
 
     #les autres interfaces
-    max_interface = int(max(interfaces_names))
-    for i in range(0, max_interface):
-        resultat += "interface GigabitEthernet0/" + str(i) + "\n"
+    max_interface = int(max(interfaces_names)) if int(max(interfaces_names)) > 1 else 2
+    print(interfaces_names)
+    for i in range(0, max_interface+1):
+        resultat += "interface GigabitEthernet" + str(i) + "/0\n"
         if str(i) in interfaces_names:
             interface = routeur.get_interface_by_name(i)
 
             #cas particuler GigabitEthernet0/0 qui a beaucoup de paramètres je sais pas pourquoi
             if i == 0:
                 resultat += " no ip address\n media-type gbic\n speed 1000\n"
-                resultat += " duplex full\n "
+                resultat += " duplex full\n"
 
             else:
                 resultat += " no ip address\n"
 
             resultat += " negotiation auto\n ipv6 address "
-            resultat += interface.ip+"\n ipv6 enable\n "
+            resultat += interface.ip+"\n ipv6 enable\n"
             if not interface.multi_AS:   # on active pas intradomain sur l'interface qui relie 2 as
                 resultat += petite_ligne_interface_protocole(protocole, routeur)
 
         else:
             resultat += " no ip address\n shutdown\n negotiation auto\n"
-        exclamation(1)
+        resultat += exclamation(1)
 
-    print(resultat)
     return resultat
 
 
@@ -91,46 +91,47 @@ def bloc_bgp(routeur):
     protocole = str(routeur.parent_AS.intradomain_protocol)
     as_num = str(routeur.parent_AS.AS_number)
     resultat = ""
-    resultat += "routeur bgp "+str(as_num)+"\n bgp routeur-id "+routeur.router_ID+"\n bgp log-neighbor-changes\n"
+    resultat += "router bgp "+str(as_num)+"\n bgp router-id "+routeur.router_ID+"\n bgp log-neighbor-changes\n"
     resultat += " no bgp default ipv4-unicast\n"
     for other_router in routeur.parent_AS.routers:
-        if other_router.router_hostname != name:
+        if str(other_router.router_hostname) != name:
             loopback_address = other_router.get_interface_by_name("lo0").ip_no_mask
             resultat += " neighbor " + loopback_address + " remote-as " + as_num + "\n"
             resultat += " neighbor " + loopback_address + " update-source Loopback0\n"
     if routeur.is_asbr():
         for interface in routeur.interfaces:
-            if interface.multi_AS:
+            if (not interface.is_loopback()) and interface.multi_AS:
                 neigh_address = interface.corresponding_interface().ip_no_mask
-                resultat += " neighbor " + neigh_address + " remote-as " + str(interface.parent_AS.AS_number) + "\n "
-    resultat += exclamation(1)
+                resultat += " neighbor " + neigh_address + " remote-as " + interface.neighbor_router.parent_AS.AS_number
+    resultat += "\n " + exclamation(1)
 
     # partie address-family
-    resultat += " address-family ipv4\n exit-address-family\n "
-    resultat += exclamation(1)+" address-family ipv6\n"
-    if protocole=="rip":
-        resultat += "  redistribute rip AS"+as_num+"rip\n"
-    else:
-        resultat += "  redistribute ospf "+as_num
+    resultat += " address-family ipv4\n exit-address-family\n"
+    resultat += " " + exclamation(1)+" address-family ipv6\n"
+    if routeur.is_asbr():
+        if protocole == "rip":
+            resultat += "  redistribute rip AS" + as_num + "rip\n"
+        else:
+            resultat += "  redistribute ospf " + as_num + "\n"
 
-    for interface in routeur.interfaces:
-        if interface.is_loopback():
-            resultat += "  network " + interface.ip+"\n"
-        elif interface.parent_router.parent_AS.AS_number == routeur.parent_AS.AS_number:
-            resultat += "  network " + interface.ip_prefix+"\n"
+        for interface in routeur.interfaces:
+            if interface.is_loopback():
+                resultat += "  network " + interface.ip + "\n"
+            elif interface.parent_router.parent_AS.AS_number == routeur.parent_AS.AS_number:
+                resultat += "  network " + interface.ip_prefix + "\n"
 
-    resultat += "  aggregate-address "+routeur.parent_AS.as_prefix+" summary-only"
+        resultat += "  aggregate-address " + routeur.parent_AS.AS_prefix + " summary-only\n"
 
     for other_router in routeur.parent_AS.routers:
-        if other_router.router_hostname != name:
+        if str(other_router.router_hostname) != name:
             loopback_address = other_router.get_interface_by_name("lo0").ip_no_mask
             resultat += "  neighbor " + loopback_address + " activate\n"
     if routeur.is_asbr():
         for interface in routeur.interfaces:
-            if interface.multi_AS:
+            if (not interface.is_loopback()) and interface.multi_AS:
                 neigh_address = interface.corresponding_interface().ip_no_mask
-                resultat += "  neighbor " + neigh_address + " activate " + str(interface.parent_AS.AS_number) + "\n"
-    resultat += " exit-address-family\n !\n"
+                resultat += "  neighbor " + neigh_address + " activate\n"
+    resultat += " exit-address-family\n!\n"
 
     return resultat
 
@@ -140,13 +141,15 @@ def bloc_intradom(routeur):
     protocole = str(routeur.parent_AS.intradomain_protocol)
     as_num = str(routeur.parent_AS.AS_number)
     resultat = ""
-    if protocole=="rip":
-        resultat += "ipv6 routeur rip AS"+as_num+"rip\n redistribute connected\n!\n"
+    if protocole == "rip":
+        resultat += "ipv6 router rip AS"+as_num+"rip\n redistribute connected\n!\n"
+    elif protocole == "ospf":
+        resultat += "ipv6 router ospf "+as_num+"\n router-id "+routeur.router_ID+"\n redistribute connected\n"
     return resultat
 
 
 def total_router_configuration(router, default):
-    everything = "!\n ! Configuré automatiquement le " + str(datetime.datetime.now()) + " \n!\n"
+    everything = "!\n! Configuré automatiquement le " + str(datetime.datetime.now()) + " \n!\n"
     everything += ""
     new_file_name = "i" + str(router.router_hostname) + "_startup-config.cfg"
     try:
@@ -170,8 +173,8 @@ def total_router_configuration(router, default):
         everything += default["BLOC 4"]
         everything += exclamation(5)
 
-    result_file.write(everything)
-    print(everything)
+        result_file.write(everything)
+
 
 
 default_blocs = initialize_default_blocs()
