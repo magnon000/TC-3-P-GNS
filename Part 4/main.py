@@ -212,14 +212,109 @@ routeur11 = ASBR(11, as3)
 routeur12 = Router(12, as3)
 routeur13 = Router(13, as3)
 routeur14 = Router(14, as3)
-router15 = ASBR(15, as3)
-router16 = ASBR(16, as3)
-router17 = ASBR(17, as3)
+routeur15 = ASBR(15, as3)
+routeur16 = ASBR(16, as3)
+routeur17 = ASBR(17, as3)
 
-router18 = ASBR(18, as4)
-router19 = ASBR(19, as4)
-router20 = ASBR(20, as4)
-router21 = Router(21, as4)
-router22 = Router(22, as4)
+routeur18 = ASBR(18, as4)
+routeur19 = ASBR(19, as4)
+routeur20 = ASBR(20, as4)
+routeur21 = Router(21, as4)
+routeur22 = Router(22, as4)
 
-rout
+
+routeur1.add_interface_from_neighbor_router("0", routeur2)
+routeur1.craft_ip_on_all_interfaces()
+routeur1.add_loopback_interface()
+
+interfaces_routeur2 = {"0": routeur1, "1": routeur3, "2": routeur4, "3":routeur5}
+routeur2.add_many_interfaces_from_routers(interfaces_routeur2)
+routeur2.craft_ip_on_all_interfaces()
+routeur2.add_loopback_interface()
+
+routeur3.add_interface_from_neighbor_router("0", routeur2)
+routeur3.craft_ip_on_all_interfaces()
+routeur3.add_loopback_interface()
+
+routeur4.add_interface_from_neighbor_router("0", routeur2)
+routeur4.add_interface_from_neighbor_router("1", routeur6)
+routeur4.craft_ip_on_all_interfaces()
+routeur4.add_loopback_interface()
+
+routeur5.add_interface_from_neighbor_router("0", routeur2)
+routeur5.add_interface_from_neighbor_router("1", routeur7)
+routeur5.craft_ip_on_all_interfaces()
+routeur5.add_loopback_interface()
+
+routeur6.add_interface_from_neighbor_router("0", routeur7)
+routeur6.add_interface_from_neighbor_router("1", routeur5)
+routeur6.craft_ip_on_all_interfaces()
+routeur6.add_loopback_interface()
+
+routeur7.add_interface_from_neighbor_router("0", routeur6)
+routeur7.add_interface_from_neighbor_router("1", routeur8)
+routeur7.add_interface_from_neighbor_router("2", routeur5)
+routeur7.add_interface_from_neighbor_router("3", routeur11)
+routeur7.craft_ip_on_all_interfaces()
+routeur7.add_loopback_interface()
+
+routeur8.add_interface_from_neighbor_router("0", routeur7)
+routeur8.add_interface_from_neighbor_router("1", routeur9)
+routeur8.craft_ip_on_all_interfaces()
+routeur8.add_loopback_interface()
+
+routeur9.add_interface_from_neighbor_router("0", routeur8)
+routeur9.add_interface_from_neighbor_router("1", routeur10)
+routeur9.craft_ip_on_all_interfaces()
+routeur9.add_loopback_interface()
+
+routeur10.add_interface_from_neighbor_router("0", routeur9)
+routeur10.craft_ip_on_all_interfaces()
+routeur10.add_loopback_interface()
+
+routeur11.add_interface_from_neighbor_router("0", routeur12)
+routeur11.add_interface_from_neighbor_router("1", routeur13)
+routeur11.add_interface_from_neighbor_router("2", routeur7)
+routeur11.craft_ip_on_all_interfaces()
+routeur11.add_loopback_interface()
+
+routeur12.add_interface_from_neighbor_router("0", routeur11)
+routeur12.add_interface_from_neighbor_router("1", routeur14)
+routeur12.craft_ip_on_all_interfaces()
+routeur12.add_loopback_interface()
+
+interfaces_routeur13 = {"0": routeur11, "1": routeur14, "2": routeur17}
+routeur13.add_many_interfaces_from_routers(interfaces_routeur13)
+routeur13.craft_ip_on_all_interfaces()
+routeur13.add_loopback_interface()
+
+interfaces_routeur14 = {"0": routeur12, "1": routeur13,
+                        "2": routeur15, "3": routeur16}
+routeur14.add_many_interfaces_from_routers(interfaces_routeur14)
+routeur14.craft_ip_on_all_interfaces()
+routeur14.add_loopback_interface()
+
+routeur15.add_interface_from_neighbor_router("0", routeur14)
+routeur15.add_interface_from_neighbor_router("1", routeur18)
+routeur15.craft_ip_on_all_interfaces()
+routeur15.add_loopback_interface()
+
+routeur16.add_interface_from_neighbor_router("0", routeur14)
+routeur16.add_interface_from_neighbor_router("1", routeur1)
+routeur16.craft_ip_on_all_interfaces()
+routeur16
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

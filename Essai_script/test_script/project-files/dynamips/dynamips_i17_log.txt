@@ -1,0 +1,36 @@
+Feb 01 15:00:33.029 HYPERVISOR: Release 0.2.23-amd64/Linux (tag 2023010200)
+Feb 01 15:00:33.029 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 41033.
+Feb 01 15:00:33.036 HYPERVISOR: exec_cmd: hypervisor version 
+Feb 01 15:00:33.037 HYPERVISOR: exec_cmd: hypervisor working_dir /home/diego/Desktop/Link to Scolaire/GNS3/TC-3-P-GNS/Essai_script/test_script/project-files/dynamips 
+Feb 01 15:00:33.037 GENERAL: working_dir=/home/diego/Desktop/Link to Scolaire/GNS3/TC-3-P-GNS/Essai_script/test_script/project-files/dynamips
+Feb 01 15:00:33.038 HYPERVISOR: exec_cmd: hypervisor working_dir /home/diego/Desktop/Link to Scolaire/GNS3/TC-3-P-GNS/Essai_script/test_script/project-files/dynamips/b749480f-995b-410f-ab74-491e4cd1e7c5 
+Feb 01 15:00:33.038 GENERAL: working_dir=/home/diego/Desktop/Link to Scolaire/GNS3/TC-3-P-GNS/Essai_script/test_script/project-files/dynamips/b749480f-995b-410f-ab74-491e4cd1e7c5
+Feb 01 15:00:33.038 HYPERVISOR: exec_cmd: vm create R17 17 c7200 
+Feb 01 15:00:33.039 VM: VM R17 created.
+Feb 01 15:00:33.040 HYPERVISOR: exec_cmd: vm set_con_tcp_port R17 5016 
+Feb 01 15:00:33.040 HYPERVISOR: exec_cmd: c7200 get_mac_addr R17 
+Feb 01 15:00:33.040 HYPERVISOR: exec_cmd: vm get_status R17 
+Feb 01 15:00:33.040 HYPERVISOR: exec_cmd: vm slot_add_binding R17 0 0 C7200-IO-FE 
+Feb 01 15:00:33.041 HYPERVISOR: exec_cmd: vm set_disk0 R17 0 
+Feb 01 15:00:33.041 HYPERVISOR: exec_cmd: vm get_status R17 
+Feb 01 15:00:33.041 HYPERVISOR: exec_cmd: vm set_idle_pc R17 0x62cc930c 
+Feb 01 15:00:33.042 HYPERVISOR: exec_cmd: vm set_ios R17 /home/diego/GNS3/images/IOS/c7200-advipservicesk9-mz.152-4.S5.image 
+Feb 01 15:00:33.042 HYPERVISOR: exec_cmd: c7200 set_mac_addr R17 ca11.a2d2.0000 
+Feb 01 15:00:33.042 HYPERVISOR: exec_cmd: vm set_nvram R17 512 
+Feb 01 15:00:33.043 HYPERVISOR: exec_cmd: vm set_ram R17 512 
+Feb 01 15:00:33.043 HYPERVISOR: exec_cmd: vm get_status R17 
+Feb 01 15:00:33.043 HYPERVISOR: exec_cmd: vm slot_remove_binding R17 0 0 
+Feb 01 15:00:33.044 HYPERVISOR: exec_cmd: vm get_status R17 
+Feb 01 15:00:33.044 HYPERVISOR: exec_cmd: vm slot_add_binding R17 0 0 C7200-IO-GE-E 
+Feb 01 15:00:33.044 HYPERVISOR: exec_cmd: vm get_status R17 
+Feb 01 15:00:33.044 HYPERVISOR: exec_cmd: vm slot_add_binding R17 1 0 PA-GE 
+Feb 01 15:00:33.045 HYPERVISOR: exec_cmd: vm get_status R17 
+Feb 01 15:00:33.045 HYPERVISOR: exec_cmd: vm slot_add_binding R17 2 0 PA-GE 
+Feb 01 15:00:33.045 HYPERVISOR: exec_cmd: vm get_status R17 
+Feb 01 15:00:33.045 HYPERVISOR: exec_cmd: vm slot_add_binding R17 3 0 PA-GE 
+Feb 01 15:00:40.033 HYPERVISOR: exec_cmd: nio create_udp udp-30e896f7-1da8-477e-99bf-6e889ad90223 10088 127.0.0.1 10089 
+Feb 01 15:00:40.246 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R17 0 0 udp-30e896f7-1da8-477e-99bf-6e889ad90223 
+Feb 01 15:00:40.247 HYPERVISOR: exec_cmd: vm get_status R17 
+Feb 01 15:00:43.423 HYPERVISOR: exec_cmd: nio create_udp udp-09132c5b-be32-4bd9-9fb9-07bd689ac2b0 10146 127.0.0.1 10147 
+Feb 01 15:00:43.425 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R17 1 0 udp-09132c5b-be32-4bd9-9fb9-07bd689ac2b0 
+Feb 01 15:00:43.426 HYPERVISOR: exec_cmd: vm get_status R17 

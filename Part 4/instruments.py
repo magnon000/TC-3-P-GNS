@@ -121,6 +121,11 @@ class Router:
                 liste_voisins.append(interface.neighbor_router)
         return liste_voisins
 
+    def get_loopback_interface(self):
+        for interface in self.interfaces:
+            if interface.parent_router.is_asbr():
+                return interface
+
     def get_interface_by_name(self, name):
         name = str(name)
         for interface in self.interfaces:
