@@ -21,7 +21,7 @@ class AS:
                           + "Ou sinon les ajouter après avoir fait add_neighbor_as() sur le futur AS parent")
 
     # cas d'utilisation : lorsqu'on ajoute
-    def add_neighbor_as(self, neighbor, gateways, peering_prefix=None):
+    def add_neighbor_as(self, neighbor, gateways, peering_prefix=None):  # gateways: object ASBR
         if type(gateways) != 'list':
             gateways = [gateways]
 
@@ -46,6 +46,7 @@ class AS:
     # pas très joli (aurait du être géré automatiquement)
     # mais ça peut être utile si un jour on utilise la liste des gateways
     # à lancer lorsque tous les voisins sont connus avec au moins 1 gateway
+    # not utiliser in charge_objects
     def update_gateways(self):
         for routeur in self.routers:
             if routeur.is_asbr():
@@ -90,14 +91,14 @@ class Router:
         self.interfaces.append(interface)
 
     # overidée dans la classe héritée ASBR (car comportement différent)
-    # todo: not used in charge_objects
+    # not used in charge_objects
     def add_interface_from_neighbor_router(self, interface_name, neighbor_router):
         new_interface = Interface(interface_name, self.parent_AS.AS_prefix, self, neighbor_router)
         self.interfaces.append(new_interface)
 
     # paramètre dict: clé = interface name, élement = routeur
     # Ne pas utiliser pour les ASBR (héritée)
-    # todo: not used in charge_objects
+    # not used in charge_objects
     def add_many_interfaces_from_routers(self, routeurs: dict):
         for interface in routeurs:
             self.add_interface_from_neighbor_router(interface, routeurs[interface])
