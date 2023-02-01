@@ -73,7 +73,7 @@ with shelve.open(obj_path) as obj:
             interface_num_temp = one_neighbor_dict['interface']  # var: number
             neighbor_num = one_neighbor_dict['neighbor-number']  # for neighbor router and ip prefix
             exec("temp_neighbor_obj = router_{}_obj".format(neighbor_num))
-            as_num = temp_parent_router.parent_AS.AS_number
+            as_num = temp_parent_router.parent_AS.AS_number  # ignore error
             as_num = int(as_num)  # AS_number: str in class AS
             # if router_num < neighbor_num:  # calcul subnet IP prefix
             #     ip_prefix_temp = "{}:{}{}::/32".format(as_num, router_num, neighbor_num)
@@ -88,7 +88,7 @@ with shelve.open(obj_path) as obj:
             # add object Interface (on one router) to object Router.interfaces list (on the router)
             exec("router_{}_obj.add_existing_interfaces(inter_{}_{}_{}_obj)"
                  .format(router_num, router_num, interface_num_temp, neighbor_num))
-    del interface_num_temp, neighbor_num, as_num, ip_prefix_temp, temp_parent_router
+    del interface_num_temp, neighbor_num, as_num, ip_prefix_temp, temp_parent_router  # ignore error
 
     # add all interfaces, craft IP address
     for router_num in obj['router_number_list']:
@@ -113,46 +113,43 @@ with shelve.open(obj_path) as obj:
             # exec("print(asbr_{}_obj)".format(temp_asbr_num))
     del temp_asbr_num
 
-    # print(as_1_obj.__dict__)
+    # print(as_1_obj.__dict__)  # ignore error
     # add AS.neighbor, AS.peering_prefixs
+    # 'AS_neighbors': {'num_neighbor_as':[ASBR objects in this AS]}
+    # 'AS_neighbors_peering_prefixes': {'num_neighbor_as': 'peering-prefix'}
+    # as_neighbor_num = None  # init for if as_neighbor_num:
     for as_num in obj['as_number_list']:
-        print(obj['neighbor_as_' + str(as_num)])
-        as_neighbors_list = obj['neighbor_as_' + str(as_num)]
+        # print(obj['neighbor_as_' + str(as_num)])
+        as_neighbors_list_of_dicts = obj['neighbor_as_' + str(as_num)]
         temp_neighbors_dicts = {}
-        for as_neighbor_dict in as_neighbors_list:
-            if as_index:
-                if as_index == as_neighbor_dict['as-number']:
-                    asbr_list.append()  # append object ASBR
-            as_index = as_neighbor_dict['as-number']
+        for as_neighbor_dict in as_neighbors_list_of_dicts:
+            # if as_neighbor_num:  # detect if still in same AS
+            #     if as_neighbor_num == as_neighbor_dict['as-number']:
+            #         asbr_list.append()  # todo: if 1 AS n peering_pre
+            as_neighbor_num = as_neighbor_dict['as-number']
             asbr_list = []
             for temp_dict in obj['asbr_as_' + str(as_num)]:
                 temp_asbr_num = temp_dict['router-number']
                 exec("asbr_list.append(asbr_{}_obj)".format(temp_asbr_num))
             as_peering = as_neighbor_dict['peering-prefix']
-        # write list
-            temp_neighbor_dict = {str(as_index): asbr_list}
+            temp_neighbor_dict = {str(as_neighbor_num): asbr_list}
+            temp_peering_prefix = {str(as_neighbor_num): as_peering}  # todo: change this to list if 1 AS n peering_pre
         temp_neighbors_dicts.update(temp_neighbor_dict)
+        # write to object
         exec("as_{}_obj.AS_neighbors = temp_neighbors_dicts".format(as_num))
-        # exec("as_{}_obj.AS_neighbors_peering_prefixes.update"
-        #      "({str({}): str(obj['neighbor_as_' + str({})]['peering-prefix']})"
-        #      .format(as_num, as_num, as_num))
+        exec("as_{}_obj.AS_neighbors_peering_prefixes.update(temp_peering_prefix)".format(as_num))
         # exec("print(as_{}_obj.__dict__)".format(as_num))
+        # todo: del temp
 
+    for as_num in obj['as_number_list']:
+        exec("print(as_{}_obj.__dict__)".format(as_num))
+    routeurs = []
+    for as_num in obj['router_number_list']:
+        exec("print(router_{}_obj.__dict__)".format(as_num))
+        exec("routeurs.append(router_{}_obj)".format(as_num))
+    # print(routeurs)
+    print(router_6_obj.__dict__)
+    print(inter_6_2_8_obj.__dict__)
 
-# if __name__ == '__main__':
-#     obj_path = ask_shelve_path()
-#     with shelve.open(obj_path) as test:
-#         obj_list = [ele for ele in test]
-#         print(obj_list)
-#         print(test['router_number_list'])
-#         print(test['as_number_list'])
-#         # print(test.__dict__)
-#         # print(test['as_1'])
-#         print(test['routers_as_1'])
-#         print(test['asbr_as_1'])
-#         print(test['neighbor_router_1'])
-#         # print(len(test['neighbor_router_1']))
-#         # as1r = test['as_1']
-#         # print(type(test))
-#         # as1 = AS(num=as1r['as-number'], protocol=as1r['intra-protocol'], prefix=as1r['as-prefix'])
-#         # print(as1.__dict__)
+if __name__ == '__main__':
+    pass

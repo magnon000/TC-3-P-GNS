@@ -1,5 +1,4 @@
 import os
-import json
 import shutil
 
 path_to_gns3_project = None
