@@ -64,7 +64,8 @@
 * Python
 * json as config input
 * * dependence:
-* * * tkinter
+* * * tkinter 
+* * * * possible ImportError on Ubuntu (try `sudo apt-get install python3-tk`)
 ### 3.1 Architecture
 physical network architecture -> JSON
 ### 3.2 Addressing
