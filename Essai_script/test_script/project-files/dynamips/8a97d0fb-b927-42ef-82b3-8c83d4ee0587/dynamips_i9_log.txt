@@ -1,0 +1,45 @@
+Feb 01 14:09:16.011 HYPERVISOR: Release 0.2.23-amd64/Linux (tag 2023010200)
+Feb 01 14:09:16.011 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 44777.
+Feb 01 14:09:16.017 HYPERVISOR: exec_cmd: hypervisor version 
+Feb 01 14:09:16.018 HYPERVISOR: exec_cmd: hypervisor working_dir /home/diego/Desktop/Link to Scolaire/GNS3/Essai_script/test_script/project-files/dynamips 
+Feb 01 14:09:16.018 GENERAL: working_dir=/home/diego/Desktop/Link to Scolaire/GNS3/Essai_script/test_script/project-files/dynamips
+Feb 01 14:09:16.019 HYPERVISOR: exec_cmd: hypervisor working_dir /home/diego/Desktop/Link to Scolaire/GNS3/Essai_script/test_script/project-files/dynamips/8a97d0fb-b927-42ef-82b3-8c83d4ee0587 
+Feb 01 14:09:16.019 GENERAL: working_dir=/home/diego/Desktop/Link to Scolaire/GNS3/Essai_script/test_script/project-files/dynamips/8a97d0fb-b927-42ef-82b3-8c83d4ee0587
+Feb 01 14:09:16.019 HYPERVISOR: exec_cmd: vm create R9 9 c7200 
+Feb 01 14:09:16.020 VM: VM R9 created.
+Feb 01 14:09:16.020 HYPERVISOR: exec_cmd: vm set_con_tcp_port R9 5008 
+Feb 01 14:09:16.020 HYPERVISOR: exec_cmd: c7200 get_mac_addr R9 
+Feb 01 14:09:16.020 HYPERVISOR: exec_cmd: vm get_status R9 
+Feb 01 14:09:16.020 HYPERVISOR: exec_cmd: vm slot_add_binding R9 0 0 C7200-IO-FE 
+Feb 01 14:09:16.021 HYPERVISOR: exec_cmd: vm set_ios R9 /home/diego/GNS3/images/IOS/c7200-advipservicesk9-mz.152-4.S5.image 
+Feb 01 14:09:16.021 HYPERVISOR: exec_cmd: vm get_status R9 
+Feb 01 14:09:16.021 HYPERVISOR: exec_cmd: vm set_idle_pc R9 0x62cc930c 
+Feb 01 14:09:16.021 HYPERVISOR: exec_cmd: vm set_ram R9 512 
+Feb 01 14:09:16.022 HYPERVISOR: exec_cmd: vm set_nvram R9 512 
+Feb 01 14:09:16.022 HYPERVISOR: exec_cmd: vm set_disk0 R9 0 
+Feb 01 14:09:16.022 HYPERVISOR: exec_cmd: vm get_status R9 
+Feb 01 14:09:16.022 HYPERVISOR: exec_cmd: vm slot_remove_binding R9 0 0 
+Feb 01 14:09:16.023 HYPERVISOR: exec_cmd: vm get_status R9 
+Feb 01 14:09:16.023 HYPERVISOR: exec_cmd: vm slot_add_binding R9 0 0 C7200-IO-GE-E 
+Feb 01 14:09:16.023 HYPERVISOR: exec_cmd: vm get_status R9 
+Feb 01 14:09:16.023 HYPERVISOR: exec_cmd: vm slot_add_binding R9 1 0 PA-GE 
+Feb 01 14:09:16.023 HYPERVISOR: exec_cmd: vm get_status R9 
+Feb 01 14:09:16.024 HYPERVISOR: exec_cmd: vm slot_add_binding R9 2 0 PA-GE 
+Feb 01 14:09:16.024 HYPERVISOR: exec_cmd: vm get_status R9 
+Feb 01 14:09:16.024 HYPERVISOR: exec_cmd: vm slot_add_binding R9 3 0 PA-GE 
+Feb 01 14:09:16.094 HYPERVISOR: exec_cmd: vm set_ios R9 /home/diego/GNS3/images/IOS/c7200-advipservicesk9-mz.152-4.S5.image 
+Feb 01 14:16:12.972 HYPERVISOR: exec_cmd: nio create_udp udp-4e7c4107-f3e3-42b4-a526-b2f976b5c821 10040 127.0.0.1 10041 
+Feb 01 14:16:13.183 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R9 0 0 udp-4e7c4107-f3e3-42b4-a526-b2f976b5c821 
+Feb 01 14:16:13.183 HYPERVISOR: exec_cmd: vm get_status R9 
+Feb 01 14:16:17.992 HYPERVISOR: exec_cmd: nio create_udp udp-c5bd6f7b-ca6d-4655-8836-7eea9cfdfbe3 10044 127.0.0.1 10045 
+Feb 01 14:16:17.994 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R9 1 0 udp-c5bd6f7b-ca6d-4655-8836-7eea9cfdfbe3 
+Feb 01 14:16:17.994 HYPERVISOR: exec_cmd: vm get_status R9 
+Feb 01 14:46:03.179 HYPERVISOR: exec_cmd: vm get_status R9 
+Feb 01 14:46:03.184 HYPERVISOR: exec_cmd: vm extract_config R9 
+Feb 01 14:46:03.586 HYPERVISOR: exec_cmd: vm get_status R9 
+Feb 01 14:46:03.588 HYPERVISOR: exec_cmd: vm extract_config R9 
+Feb 01 14:46:03.588 HYPERVISOR: exec_cmd: vm delete R9 
+Feb 01 14:46:03.589 VM: VM R9 destroyed.
+Feb 01 14:46:03.589 HYPERVISOR: exec_cmd: hypervisor stop 
+Feb 01 14:46:03.951 HYPERVISOR: Stopped.
+Feb 01 14:46:03.951 GENERAL: reset done.

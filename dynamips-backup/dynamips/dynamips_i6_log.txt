@@ -1,0 +1,35 @@
+Jan 26 09:36:49.840 HYPERVISOR: Release 0.2.23-amd64/Linux (tag 2023010200)
+Jan 26 09:36:49.840 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 39125.
+Jan 26 09:36:49.849 HYPERVISOR: exec_cmd: hypervisor version 
+Jan 26 09:36:49.850 HYPERVISOR: exec_cmd: hypervisor working_dir /media/diego/SSD/Users/Diego/Documents/Scolaire/GNS3/TC-3-P-GNS/project-files/dynamips 
+Jan 26 09:36:49.850 GENERAL: working_dir=/media/diego/SSD/Users/Diego/Documents/Scolaire/GNS3/TC-3-P-GNS/project-files/dynamips
+Jan 26 09:36:49.851 HYPERVISOR: exec_cmd: hypervisor working_dir /media/diego/SSD/Users/Diego/Documents/Scolaire/GNS3/TC-3-P-GNS/project-files/dynamips/a5a154f0-d371-4271-b94f-fa9260ae6303 
+Jan 26 09:36:49.851 GENERAL: working_dir=/media/diego/SSD/Users/Diego/Documents/Scolaire/GNS3/TC-3-P-GNS/project-files/dynamips/a5a154f0-d371-4271-b94f-fa9260ae6303
+Jan 26 09:36:49.851 HYPERVISOR: exec_cmd: vm create R6 6 c7200 
+Jan 26 09:36:49.852 VM: VM R6 created.
+Jan 26 09:36:49.852 HYPERVISOR: exec_cmd: vm set_con_tcp_port R6 5005 
+Jan 26 09:36:49.852 HYPERVISOR: exec_cmd: c7200 get_mac_addr R6 
+Jan 26 09:36:49.852 HYPERVISOR: exec_cmd: vm get_status R6 
+Jan 26 09:36:49.852 HYPERVISOR: exec_cmd: vm slot_add_binding R6 0 0 C7200-IO-FE 
+Jan 26 09:36:49.853 HYPERVISOR: exec_cmd: vm set_disk0 R6 0 
+Jan 26 09:36:49.853 HYPERVISOR: exec_cmd: vm set_ios R6 /home/diego/GNS3/images/IOS/c7200-advipservicesk9-mz.152-4.S5.image 
+Jan 26 09:36:49.853 HYPERVISOR: exec_cmd: c7200 set_mac_addr R6 ca06.0958.0000 
+Jan 26 09:36:49.854 HYPERVISOR: exec_cmd: vm set_nvram R6 512 
+Jan 26 09:36:49.854 HYPERVISOR: exec_cmd: vm set_ram R6 512 
+Jan 26 09:36:49.854 HYPERVISOR: exec_cmd: vm get_status R6 
+Jan 26 09:36:49.854 HYPERVISOR: exec_cmd: vm slot_remove_binding R6 0 0 
+Jan 26 09:36:49.854 HYPERVISOR: exec_cmd: vm get_status R6 
+Jan 26 09:36:49.854 HYPERVISOR: exec_cmd: vm slot_add_binding R6 0 0 C7200-IO-GE-E 
+Jan 26 09:36:49.855 HYPERVISOR: exec_cmd: vm get_status R6 
+Jan 26 09:36:49.855 HYPERVISOR: exec_cmd: vm slot_add_binding R6 1 0 PA-GE 
+Jan 26 09:36:49.855 HYPERVISOR: exec_cmd: vm get_status R6 
+Jan 26 09:36:49.855 HYPERVISOR: exec_cmd: vm slot_add_binding R6 2 0 PA-GE 
+Jan 26 09:36:49.855 HYPERVISOR: exec_cmd: vm get_status R6 
+Jan 26 09:36:49.855 HYPERVISOR: exec_cmd: vm slot_add_binding R6 3 0 PA-GE 
+Jan 26 09:36:52.458 HYPERVISOR: exec_cmd: vm get_status R6 
+Jan 26 09:36:52.460 HYPERVISOR: exec_cmd: vm extract_config R6 
+Jan 26 09:36:52.464 HYPERVISOR: exec_cmd: vm delete R6 
+Jan 26 09:36:52.464 VM: VM R6 destroyed.
+Jan 26 09:36:52.465 HYPERVISOR: exec_cmd: hypervisor stop 
+Jan 26 09:36:52.852 HYPERVISOR: Stopped.
+Jan 26 09:36:52.852 GENERAL: reset done.
