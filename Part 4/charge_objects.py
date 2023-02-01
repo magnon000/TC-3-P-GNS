@@ -105,12 +105,19 @@ with shelve.open(obj_path) as obj:
     # for router_num in obj['router_number_list']:
     #     exec("print(router_{}_obj.__dict__)".format(router_num))
 
-    # generate all ASBR objects
+    # generate all ASBR objects & add all interfaces
     for as_num in obj['as_number_list']:
         for temp_dict in obj['asbr_as_' + str(as_num)]:
             temp_asbr_num = temp_dict['router-number']  # to avoid python escape characters
             exec("asbr_{}_obj = ASBR(router_{}_obj, as_{}_obj)".format(temp_asbr_num, temp_asbr_num, as_num))
             # exec("print(asbr_{}_obj)".format(temp_asbr_num))
+            # todo: add_all_interfaces bug
+            for one_neighbor_dict in obj['neighbor_router_' + str(temp_asbr_num)]:
+                interface_num_temp = one_neighbor_dict['interface']  # var: number
+                neighbor_num = one_neighbor_dict['neighbor-number']  # for neighbor router and ip prefix
+                exec("asbr_{}_obj.add_existing_interfaces(inter_{}_{}_{}_obj)"
+                     .format(temp_asbr_num, temp_asbr_num, interface_num_temp, neighbor_num))
+        del interface_num_temp, neighbor_num
     del temp_asbr_num
 
     # print(as_1_obj.__dict__)  # ignore error
@@ -142,14 +149,27 @@ with shelve.open(obj_path) as obj:
         # todo: del temp
 
     for as_num in obj['as_number_list']:
+        exec("temp_router_list = as_{}_obj.routers".format(as_num))
+        for temp_dict in obj['asbr_as_' + str(as_num)]:
+            temp_asbr_num = temp_dict['router-number']
+            exec("as_{}_obj.routers.remove(router_{}_obj)".format(as_num, temp_asbr_num))
+            exec("del router_{}_obj".format(temp_asbr_num))
         exec("print(as_{}_obj.__dict__)".format(as_num))
+
     routeurs = []
     for as_num in obj['router_number_list']:
-        exec("print(router_{}_obj.__dict__)".format(as_num))
-        exec("routeurs.append(router_{}_obj)".format(as_num))
-    # print(routeurs)
-    print(router_6_obj.__dict__)
-    print(inter_6_2_8_obj.__dict__)
+        try:
+            # exec("print(router_{}_obj.__dict__)".format(as_num))
+            exec("routeurs.append(router_{}_obj)".format(as_num))
+        except NameError:
+            exec("routeurs.append(asbr_{}_obj)".format(as_num))
+    print(routeurs)
+    # print(router_6_obj.__dict__)
+    # print(router_6_obj.__dict__)
+    # print(router_6_obj.interfaces)
+    # print(as_1_obj.routers)
+    # for inter in inter_6_2_8_obj.__dict__:
+    #     print(inter.__dict__)
 
 if __name__ == '__main__':
     pass

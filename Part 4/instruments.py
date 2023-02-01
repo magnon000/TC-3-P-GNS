@@ -124,7 +124,7 @@ class Router:
 
     def get_loopback_interface(self):
         for interface in self.interfaces:
-            if interface.parent_router.is_asbr():
+            if interface.is_loopback():
                 return interface
 
     def get_interface_by_name(self, name):
