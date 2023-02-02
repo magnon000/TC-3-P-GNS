@@ -65,6 +65,7 @@ class AS:
         return "(AS " + self.AS_number + ")"
 
     def description(self):
+        self.update_gateways()
         print("------------------")
         print("L'AS", self.AS_number, "a pour préfixe", self.AS_prefix, "et doit utiliser le protocole intra-domaine",
               self.intradomain_protocol)
@@ -124,7 +125,7 @@ class Router:
 
     def get_loopback_interface(self):
         for interface in self.interfaces:
-            if interface.parent_router.is_asbr():
+            if interface.is_loopback():
                 return interface
 
     def get_interface_by_name(self, name):
@@ -247,9 +248,10 @@ class Interface:
     def corresponding_interface(self):
         if self.ip is not None:
             for en_face_interface in self.neighbor_router.interfaces:
-                if en_face_interface.neighbor_router == self.parent_router:
+                if not en_face_interface.is_loopback() and en_face_interface.neighbor_router == self.parent_router:
                     return en_face_interface
         print("ERREUR: Aucun routeur en face (ce n'est pas possible donc erreur très grave)")
+        print("Aide: je suis l'interface", self.name, "du routeur", self.parent_router.router_hostname)
 
     def __repr__(self):
         if self.ip is None:
@@ -274,6 +276,10 @@ class LoopbackInterface(Interface):
 
     def craft_ip(self):
         pass
+
+    def corresponding_interface(self):
+        print("Erreur: je suis l'interface loopback du routeur", self.parent_router.router_hostname)
+        print("Je n'ai donc pas de corresponding_interface")
 
     def __repr__(self):
         return "("+self.name+","+self.ip+")"   # print l'ip entière (car créée dans __init__ donc existe sûr)

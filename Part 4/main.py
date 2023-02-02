@@ -193,8 +193,8 @@ import auto_deplacement
 
 as1 = AS("1", "rip", "1::/16")
 as2 = AS("2", "rip", "2::/16")
-as3 = AS("3", "ospf", "3::/16")
-as4 = AS("4", "ospf", "4::/16")
+as3 = AS("3", "rip", "3::/16")
+as4 = AS("4", "rip", "4::/16")
 
 routeur1 = Router(1, as1)
 routeur2 = Router(2, as1)
@@ -237,24 +237,24 @@ routeur3.craft_ip_on_all_interfaces()
 routeur3.add_loopback_interface()
 
 routeur4.add_interface_from_neighbor_router("0", routeur2)
-routeur4.add_interface_from_neighbor_router("1", routeur6)
+routeur4.add_interface_from_neighbor_router("1", routeur6, "12::/16")
 routeur4.craft_ip_on_all_interfaces()
 routeur4.add_loopback_interface()
 
 routeur5.add_interface_from_neighbor_router("0", routeur2)
-routeur5.add_interface_from_neighbor_router("1", routeur7)
+routeur5.add_interface_from_neighbor_router("1", routeur7, "12::/16")
 routeur5.craft_ip_on_all_interfaces()
 routeur5.add_loopback_interface()
 
 routeur6.add_interface_from_neighbor_router("0", routeur7)
-routeur6.add_interface_from_neighbor_router("1", routeur5)
+routeur6.add_interface_from_neighbor_router("1", routeur4, "12::/16")
 routeur6.craft_ip_on_all_interfaces()
 routeur6.add_loopback_interface()
 
 routeur7.add_interface_from_neighbor_router("0", routeur6)
 routeur7.add_interface_from_neighbor_router("1", routeur8)
-routeur7.add_interface_from_neighbor_router("2", routeur5)
-routeur7.add_interface_from_neighbor_router("3", routeur11)
+routeur7.add_interface_from_neighbor_router("2", routeur5, "12::/16")
+routeur7.add_interface_from_neighbor_router("3", routeur11, "23::/16")
 routeur7.craft_ip_on_all_interfaces()
 routeur7.add_loopback_interface()
 
@@ -274,7 +274,7 @@ routeur10.add_loopback_interface()
 
 routeur11.add_interface_from_neighbor_router("0", routeur12)
 routeur11.add_interface_from_neighbor_router("1", routeur13)
-routeur11.add_interface_from_neighbor_router("2", routeur7)
+routeur11.add_interface_from_neighbor_router("2", routeur7, "23::/16")
 routeur11.craft_ip_on_all_interfaces()
 routeur11.add_loopback_interface()
 
@@ -295,20 +295,63 @@ routeur14.craft_ip_on_all_interfaces()
 routeur14.add_loopback_interface()
 
 routeur15.add_interface_from_neighbor_router("0", routeur14)
-routeur15.add_interface_from_neighbor_router("1", routeur18)
+routeur15.add_interface_from_neighbor_router("1", routeur18, "34::/16")
 routeur15.craft_ip_on_all_interfaces()
 routeur15.add_loopback_interface()
 
 routeur16.add_interface_from_neighbor_router("0", routeur14)
-routeur16.add_interface_from_neighbor_router("1", routeur1)
+routeur16.add_interface_from_neighbor_router("1", routeur19, "34::/16")
 routeur16.craft_ip_on_all_interfaces()
-routeur16
+routeur16.add_loopback_interface()
 
+routeur17.add_interface_from_neighbor_router("0", routeur13)
+routeur17.add_interface_from_neighbor_router("1", routeur20, "34::/16")
+routeur17.craft_ip_on_all_interfaces()
+routeur17.add_loopback_interface()
 
+routeur18.add_interface_from_neighbor_router("0", routeur21)
+routeur18.add_interface_from_neighbor_router("1", routeur15, "34::/16")
+routeur18.craft_ip_on_all_interfaces()
+routeur18.add_loopback_interface()
 
+routeur19.add_interface_from_neighbor_router("0", routeur21)
+routeur19.add_interface_from_neighbor_router("1", routeur16, "34::/16")
+routeur19.craft_ip_on_all_interfaces()
+routeur19.add_loopback_interface()
 
+routeur20.add_interface_from_neighbor_router("0", routeur22)
+routeur20.add_interface_from_neighbor_router("1", routeur17, "34::/16")
+routeur20.craft_ip_on_all_interfaces()
+routeur20.add_loopback_interface()
 
+interfaces_routeur21 = {"0": routeur18, "1": routeur19, "2": routeur22}
+routeur21.add_many_interfaces_from_routers(interfaces_routeur21)
+routeur21.craft_ip_on_all_interfaces()
+routeur21.add_loopback_interface()
 
+routeur22.add_interface_from_neighbor_router("0", routeur20)
+routeur22.add_interface_from_neighbor_router("1", routeur21)
+routeur22.craft_ip_on_all_interfaces()
+routeur22.add_loopback_interface()
+
+as4.description()
+
+routeurs = [routeur1, routeur2, routeur3, routeur4, routeur5, routeur6, routeur7,
+            routeur8, routeur9, routeur10, routeur11, routeur12, routeur13, routeur14,
+            routeur15, routeur16, routeur17, routeur18, routeur19, routeur20, routeur21, routeur22]
+
+routeur7.description()
+routeur11.description()
+
+as2.description()
+as3.description()
+
+for routeur in routeurs:
+    drag_and_drop.total_router_configuration(routeur, drag_and_drop.initialize_default_blocs())
+auto_deplacement.initialize("/media/diego/SSD/Users/Diego/Documents/Scolaire/GNS3/TC-3-P-GNS/Essai_script/test_script/")
+print(auto_deplacement.correspondance_hostname_nodeid())
+
+auto_deplacement.new_dynamips(auto_deplacement.correspondance_hostname_nodeid())
 
 
 
