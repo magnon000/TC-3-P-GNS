@@ -107,7 +107,8 @@ def bloc_bgp(routeur):
             if (not interface.is_loopback()) and interface.multi_AS:
                 neigh_address = interface.corresponding_interface().ip_no_mask
                 resultat += " neighbor " + neigh_address + " remote-as " + interface.neighbor_router.parent_AS.AS_number
-    resultat += "\n " + exclamation(1)
+                resultat += "\n"
+    resultat += exclamation(1)
 
     # partie address-family
     resultat += " address-family ipv4\n exit-address-family\n"
