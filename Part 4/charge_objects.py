@@ -81,10 +81,29 @@ with shelve.open(obj_path) as obj:
             #     ip_prefix_temp = "{}:{}{}::/32".format(as_num, router_num, neighbor_num)
             # else:
             #     ip_prefix_temp = "{}:{}{}::/32".format(as_num, neighbor_num, router_num)
-            ip_prefix_temp = "{}::/16".format(as_num)
-            exec("inter_{}_{}_{}_obj="
-                 "charge_interface(interface_num_temp, ip_prefix_temp, temp_parent_router, temp_neighbor_obj)"
-                 .format(router_num, interface_num_temp, neighbor_num))
+            # ip_prefix_temp = "{}::/16".format(as_num)
+            exec("ip_prefix_temp = as_{}_obj.AS_prefix".format(as_num))
+            # todo: if ASBR inter to another ASBR, use AS_neighbors_peering_prefixes
+            # if interface neighbor in self AS, use AS prefix, if not use peering-prefix
+            exec("temp_as_obj = as_{}_obj".format(as_num))
+            exec("temp_router_obj = router_{}_obj".format(neighbor_num))
+            if temp_router_obj in temp_as_obj.routers:
+                exec("inter_{}_{}_{}_obj="
+                     "charge_interface(interface_num_temp, ip_prefix_temp, temp_parent_router, temp_neighbor_obj)"
+                     .format(router_num, interface_num_temp, neighbor_num))
+            else:
+                neighbor_as_num = int(temp_router_obj.parent_AS.AS_number)  # str -> int
+                as_neighbors_list_of_dicts = obj['neighbor_as_' + str(as_num)]
+                as_peering_prefix = None
+                for as_neighbor_dict in as_neighbors_list_of_dicts:
+                    if neighbor_as_num == as_neighbor_dict['as-number']:
+                        as_peering_prefix = as_neighbor_dict['peering-prefix']
+                        exec("inter_{}_{}_{}_obj="
+                             "charge_interface(interface_num_temp, as_peering_prefix, temp_parent_router, temp_neighbor_obj)"
+                             .format(router_num, interface_num_temp, neighbor_num))
+                if not as_peering_prefix:
+                    print("No peering-prefix between", as_num, "and", neighbor_as_num, "!!!")
+                    quit()
             # exec("print(inter_{}_{}_{}_obj)".format(router_num, interface_num_temp, neighbor_num))
 
             # add object Interface (on one router) to object Router.interfaces list (on the router)
@@ -96,22 +115,22 @@ with shelve.open(obj_path) as obj:
     for router_num in obj['router_number_list']:
         exec("router_{}_obj.craft_ip_on_all_interfaces()".format(router_num))
 
-    # add object Interface (neighbors') to object Router.interfaces list
-    for router_num in obj['router_number_list']:
-        for one_neighbor_dict in obj['neighbor_router_' + str(router_num)]:
-            interface_num_temp = one_neighbor_dict['interface']  # var: number
-            neighbor_num = one_neighbor_dict['neighbor-number']  # for neighbor router and ip prefix
-            exec("router_{}_obj.add_existing_interfaces(inter_{}_{}_{}_obj)"
-                 .format(neighbor_num, router_num, interface_num_temp, neighbor_num))
-    del interface_num_temp, neighbor_num
+    # # add object Interface (neighbors') to object Router.interfaces list
     # for router_num in obj['router_number_list']:
-    #     exec("print(router_{}_obj.__dict__)".format(router_num))
+    #     for one_neighbor_dict in obj['neighbor_router_' + str(router_num)]:
+    #         interface_num_temp = one_neighbor_dict['interface']  # var: number
+    #         neighbor_num = one_neighbor_dict['neighbor-number']  # for neighbor router and ip prefix
+    #         exec("router_{}_obj.add_existing_interfaces(inter_{}_{}_{}_obj)"
+    #              .format(neighbor_num, router_num, interface_num_temp, neighbor_num))
+    # del interface_num_temp, neighbor_num
+    # # for router_num in obj['router_number_list']:
+    # #     exec("print(router_{}_obj.__dict__)".format(router_num))
 
     # generate all ASBR objects & add all interfaces
     for as_num in obj['as_number_list']:
         for temp_dict in obj['asbr_as_' + str(as_num)]:
             temp_asbr_num = temp_dict['router-number']  # to avoid python escape characters
-            exec("asbr_{}_obj = ASBR(router_{}_obj, as_{}_obj)".format(temp_asbr_num, temp_asbr_num, as_num))
+            exec("asbr_{}_obj = ASBR(int(router_{}_obj.router_hostname), as_{}_obj)".format(temp_asbr_num, temp_asbr_num, as_num))
             # copy all Router.interfaces to ASBR.interfaces
             exec("asbr_{}_obj.interfaces = deepcopy(router_{}_obj.interfaces)".format(temp_asbr_num, temp_asbr_num))
 
@@ -166,12 +185,6 @@ with shelve.open(obj_path) as obj:
         except NameError:
             exec("routeurs.append(asbr_{}_obj)".format(as_num))
     print(routeurs)
-    # print(router_6_obj.__dict__)
-    # print(router_6_obj.__dict__)
-    # print(router_6_obj.interfaces)
-    # print(as_1_obj.routers)
-    # for inter in inter_6_2_8_obj.__dict__:
-    #     print(inter.__dict__)
 
 if __name__ == '__main__':
     pass
