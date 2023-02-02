@@ -1,6 +1,7 @@
 from tkinter import filedialog
 import shelve
 from instruments import *
+from copy import deepcopy
 
 
 # todo: if we want to generate multiple networks, after each write, del objects is needed
@@ -59,7 +60,8 @@ with shelve.open(obj_path) as obj:
             exec("router_{}_obj = charge_router(temp_router_dict, as_{}_obj)"
                  .format(obj['router_number_list'][router_num_count], as_num))
             router_num_count += 1
-            exec("router_{}_obj.add_loopback_interface()".format(router_num_count))  # add loopback interface
+            # add loopback interface
+            exec("router_{}_obj.add_loopback_interface()".format(router_num_count))
             # exec("print(router_{}_obj.__dict__)".format(router_num_count))
     del router_num_count, temp_router_dict
 
@@ -105,18 +107,23 @@ with shelve.open(obj_path) as obj:
     # for router_num in obj['router_number_list']:
     #     exec("print(router_{}_obj.__dict__)".format(router_num))
 
-    # generate all ASBR objects
+    # generate all ASBR objects & add all interfaces
     for as_num in obj['as_number_list']:
         for temp_dict in obj['asbr_as_' + str(as_num)]:
             temp_asbr_num = temp_dict['router-number']  # to avoid python escape characters
             exec("asbr_{}_obj = ASBR(router_{}_obj, as_{}_obj)".format(temp_asbr_num, temp_asbr_num, as_num))
+            # copy all Router.interfaces to ASBR.interfaces
+            exec("asbr_{}_obj.interfaces = deepcopy(router_{}_obj.interfaces)".format(temp_asbr_num, temp_asbr_num))
+
             # exec("print(asbr_{}_obj)".format(temp_asbr_num))
     del temp_asbr_num
 
     # print(as_1_obj.__dict__)  # ignore error
-    # add AS.neighbor, AS.peering_prefixs
-    # 'AS_neighbors': {'num_neighbor_as':[ASBR objects in this AS]}
-    # 'AS_neighbors_peering_prefixes': {'num_neighbor_as': 'peering-prefix'}
+    """
+    add AS.neighbor, AS.peering_prefixs
+    'AS_neighbors': {'num_neighbor_as':[ASBR objects in this AS]}
+    'AS_neighbors_peering_prefixes': {'num_neighbor_as': 'peering-prefix'}
+    """
     # as_neighbor_num = None  # init for if as_neighbor_num:
     for as_num in obj['as_number_list']:
         # print(obj['neighbor_as_' + str(as_num)])
@@ -125,7 +132,7 @@ with shelve.open(obj_path) as obj:
         for as_neighbor_dict in as_neighbors_list_of_dicts:
             # if as_neighbor_num:  # detect if still in same AS
             #     if as_neighbor_num == as_neighbor_dict['as-number']:
-            #         asbr_list.append()  # todo: if 1 AS n peering_pre
+            #         asbr_list.append()  # todo: if 1 AS has n peering_prefix
             as_neighbor_num = as_neighbor_dict['as-number']
             asbr_list = []
             for temp_dict in obj['asbr_as_' + str(as_num)]:
@@ -141,15 +148,30 @@ with shelve.open(obj_path) as obj:
         # exec("print(as_{}_obj.__dict__)".format(as_num))
         # todo: del temp
 
+    # delete ASBR related Router
     for as_num in obj['as_number_list']:
+        exec("temp_router_list = as_{}_obj.routers".format(as_num))
+        for temp_dict in obj['asbr_as_' + str(as_num)]:
+            temp_asbr_num = temp_dict['router-number']
+            exec("as_{}_obj.routers.remove(router_{}_obj)".format(as_num, temp_asbr_num))
+            exec("del router_{}_obj".format(temp_asbr_num))
         exec("print(as_{}_obj.__dict__)".format(as_num))
+
+    # generate a list of Router & ASBR
     routeurs = []
     for as_num in obj['router_number_list']:
-        exec("print(router_{}_obj.__dict__)".format(as_num))
-        exec("routeurs.append(router_{}_obj)".format(as_num))
-    # print(routeurs)
-    print(router_6_obj.__dict__)
-    print(inter_6_2_8_obj.__dict__)
+        try:
+            # exec("print(router_{}_obj.__dict__)".format(as_num))
+            exec("routeurs.append(router_{}_obj)".format(as_num))
+        except NameError:
+            exec("routeurs.append(asbr_{}_obj)".format(as_num))
+    print(routeurs)
+    # print(router_6_obj.__dict__)
+    # print(router_6_obj.__dict__)
+    # print(router_6_obj.interfaces)
+    # print(as_1_obj.routers)
+    # for inter in inter_6_2_8_obj.__dict__:
+    #     print(inter.__dict__)
 
 if __name__ == '__main__':
     pass

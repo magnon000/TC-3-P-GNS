@@ -1,4 +1,3 @@
-#from charge_objects import *
 from instruments import *
 import datetime
 import os
@@ -51,7 +50,9 @@ def bloc_interfaces(routeur: Router):
     if "lo0" in interfaces_names:
         loopback = interfaces_names.pop(interfaces_names.index("lo0"))
         resultat += "interface Loopback0\n no ip address\n"
+        print(routeur.interfaces)
         resultat += " ipv6 address " + routeur.get_loopback_interface().ip + "\n ipv6 enable\n"
+
         resultat += petite_ligne_interface_protocole(protocole, routeur)
         resultat += exclamation(1)
 
@@ -97,14 +98,13 @@ def bloc_bgp(routeur):
     resultat += " no bgp default ipv4-unicast\n"
     for other_router in routeur.parent_AS.routers:
         if str(other_router.router_hostname) != name:
-            print(other_router)
+            print(other_router.interfaces, '\n', other_router.router_hostname)
             loopback_address = other_router.get_loopback_interface().ip_no_mask
             resultat += " neighbor " + loopback_address + " remote-as " + as_num + "\n"
             resultat += " neighbor " + loopback_address + " update-source Loopback0\n"
     if routeur.is_asbr():
         for interface in routeur.interfaces:
             if (not interface.is_loopback()) and interface.multi_AS:
-                print(interface.multi_AS)
                 neigh_address = interface.corresponding_interface().ip_no_mask
                 resultat += " neighbor " + neigh_address + " remote-as " + interface.neighbor_router.parent_AS.AS_number
     resultat += "\n " + exclamation(1)
