@@ -3,8 +3,8 @@ from charge_objects import *
 import drag_and_drop
 import auto_deplacement
 
-print(routeurs[5].interfaces)
-print(routeurs[0].parent_AS.routers)
+# print(routeurs[5].interfaces)
+# print(routeurs[0].parent_AS.routers)
 for routeur in routeurs:
     # routeur.add_loopback_interface()
     drag_and_drop.total_router_configuration(routeur, drag_and_drop.initialize_default_blocs())
