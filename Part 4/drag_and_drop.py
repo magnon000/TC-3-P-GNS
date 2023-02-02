@@ -98,6 +98,8 @@ def bloc_bgp(routeur):
     resultat += " no bgp default ipv4-unicast\n"
     for other_router in routeur.parent_AS.routers:
         if str(other_router.router_hostname) != name:
+            # print("test3 routeur inspecté", name, "routeur voisin:", other_router, 'resultat: ',
+            # str(other_router.router_hostname) != name)
             print(other_router.interfaces, '\n', other_router.router_hostname)
             loopback_address = other_router.get_loopback_interface().ip_no_mask
             resultat += " neighbor " + loopback_address + " remote-as " + as_num + "\n"

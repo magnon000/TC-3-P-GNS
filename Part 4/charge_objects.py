@@ -115,16 +115,16 @@ with shelve.open(obj_path) as obj:
     for router_num in obj['router_number_list']:
         exec("router_{}_obj.craft_ip_on_all_interfaces()".format(router_num))
 
-    # add object Interface (neighbors') to object Router.interfaces list
-    for router_num in obj['router_number_list']:
-        for one_neighbor_dict in obj['neighbor_router_' + str(router_num)]:
-            interface_num_temp = one_neighbor_dict['interface']  # var: number
-            neighbor_num = one_neighbor_dict['neighbor-number']  # for neighbor router and ip prefix
-            exec("router_{}_obj.add_existing_interfaces(inter_{}_{}_{}_obj)"
-                 .format(neighbor_num, router_num, interface_num_temp, neighbor_num))
-    del interface_num_temp, neighbor_num
+    # # add object Interface (neighbors') to object Router.interfaces list
     # for router_num in obj['router_number_list']:
-    #     exec("print(router_{}_obj.__dict__)".format(router_num))
+    #     for one_neighbor_dict in obj['neighbor_router_' + str(router_num)]:
+    #         interface_num_temp = one_neighbor_dict['interface']  # var: number
+    #         neighbor_num = one_neighbor_dict['neighbor-number']  # for neighbor router and ip prefix
+    #         exec("router_{}_obj.add_existing_interfaces(inter_{}_{}_{}_obj)"
+    #              .format(neighbor_num, router_num, interface_num_temp, neighbor_num))
+    # del interface_num_temp, neighbor_num
+    # # for router_num in obj['router_number_list']:
+    # #     exec("print(router_{}_obj.__dict__)".format(router_num))
 
     # generate all ASBR objects & add all interfaces
     for as_num in obj['as_number_list']:
@@ -185,15 +185,6 @@ with shelve.open(obj_path) as obj:
         except NameError:
             exec("routeurs.append(asbr_{}_obj)".format(as_num))
     print(routeurs)
-    # print(router_6_obj.__dict__)
-    # print(router_5_obj.__dict__)
-    # print(router_6_obj.interfaces)
-    # print(as_1_obj.routers)
-    # for inter in inter_6_2_8_obj.__dict__:
-    #     print(inter.__dict__)
-    # for i in range(6, 10):
-    #     exec("print(asbr_{}_obj.__dict__)".format(i))
-    # print(as_1_obj.AS_neighbors_peering_prefixes)
 
 if __name__ == '__main__':
     pass
