@@ -192,8 +192,8 @@ import auto_deplacement
 # TEST AVEC NOUVEAU RESEAU :
 
 as1 = AS("1", "rip", "1::/16")
-as2 = AS("2", "rip", "2::/16")
-as3 = AS("3", "rip", "3::/16")
+as2 = AS("2", "ospf", "2::/16")
+as3 = AS("3", "ospf", "3::/16")
 as4 = AS("4", "rip", "4::/16")
 
 routeur1 = Router(1, as1)

@@ -20,7 +20,7 @@
 1. Un AS RIP un autre OSPF
 2. Faire BGP
 3. Une seule Area par AS
-4. Faire que verticalement les 4 colonnes de routeurs centrales pour gagner du temps
+4. Faire que verticalement les 4 colonnes de routeurs centrales pour gagner du temps (pas nécessaire)
 ### Première étape : déployer RIP et OSPF et BGP
 1. Plan d’adressage de l’AS Z : `Part 1/config_ipv6` 
 * IPv6
@@ -64,20 +64,22 @@
 * Python
 * json as config input
 * * dependence:
-* * * tkinter (need to install on Ubuntu)
+* * * tkinter 
+* * * * possible ImportError on Ubuntu (try `sudo apt-get install python3-tk`)
 ### 3.1 Architecture
 physical network architecture -> JSON
 ### 3.2 Addressing
 Automated
 IP range :
-1. as-prefix/32 -> physical interface
+1. as-prefix/[multiple de 16] -> physical interface
 2. as-prefix/128 -> loopback
-3. peering-prefix/32 -> AS-AS connection
+3. peering-prefix/[multiple de 16] -> AS-AS connection
 ### 3.3 Protocols
 * IGP -> "intra-protocol"
 * to which BGP AS a given router belongs -> "routers"
 * iBGP/eBGP -> as["neighbor-as"] (to define eBGP routers)
 ### 3.4 Policies
+!!!! NON FAIT !!!! (manque de temps)
 3.4.1 BGP Policies
 business relationship with the neighboring AS -> "local-pref" & "MED"
 3.4.2 OSPF Metric Optimization
