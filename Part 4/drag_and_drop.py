@@ -50,7 +50,7 @@ def bloc_interfaces(routeur: Router):
     if "lo0" in interfaces_names:
         loopback = interfaces_names.pop(interfaces_names.index("lo0"))
         resultat += "interface Loopback0\n no ip address\n"
-        print(routeur.interfaces)
+        # print(routeur.interfaces)
         resultat += " ipv6 address " + routeur.get_loopback_interface().ip + "\n ipv6 enable\n"
 
         resultat += petite_ligne_interface_protocole(protocole, routeur)
@@ -62,7 +62,7 @@ def bloc_interfaces(routeur: Router):
 
     #les autres interfaces
     max_interface = int(max(interfaces_names)) if int(max(interfaces_names)) > 1 else 2
-    print(interfaces_names)
+    # print(interfaces_names)
     for i in range(0, max_interface+1):
         resultat += "interface GigabitEthernet" + str(i) + "/0\n"
         if str(i) in interfaces_names:
@@ -100,7 +100,7 @@ def bloc_bgp(routeur):
         if str(other_router.router_hostname) != name:
             # print("test3 routeur inspecté", name, "routeur voisin:", other_router, 'resultat: ',
             # str(other_router.router_hostname) != name)
-            print(other_router.interfaces, '\n', other_router.router_hostname)
+            # print(other_router.interfaces, '\n', other_router.router_hostname)
             loopback_address = other_router.get_loopback_interface().ip_no_mask
             resultat += " neighbor " + loopback_address + " remote-as " + as_num + "\n"
             resultat += " neighbor " + loopback_address + " update-source Loopback0\n"

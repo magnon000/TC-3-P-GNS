@@ -64,7 +64,7 @@
 * Python
 * json as config input
 * * dependence:
-* * * tkinter
+* * * tkinter (need to install on Ubuntu)
 ### 3.1 Architecture
 physical network architecture -> JSON
 ### 3.2 Addressing
