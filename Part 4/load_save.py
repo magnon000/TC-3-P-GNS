@@ -62,6 +62,7 @@ def save_obj(obj_name: str, write_data: tuple, as_num_list, router_num_list) -> 
             count = 0
             for elem in lst:
                 p_obj[key_list[index] + str(num_list[index][count])] = elem
+                print(lst, count)  # todo: problem with 2+ as neighbor
                 count += 1
             index += 1
         p_obj['as_number_list'] = as_num_list
