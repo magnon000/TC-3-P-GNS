@@ -40,7 +40,7 @@ def new_dynamips(correspondances):
             routeur_dossier = "./autoconfig-result/dynamips/" + correspondances[hostname]
             os.mkdir(routeur_dossier)
             os.mkdir(routeur_dossier + "/configs")
-            shutil.move("./autoconfig-result/" + filename, routeur_dossier + "/configs")
+            shutil.copy("./autoconfig-result/" + filename, routeur_dossier + "/configs")
         except KeyError:
             print("ERREUR DANS AUTO_DEPLACEMENT (mais qui a sûrement sa source dans la définition des routeurs)")
             print("Dans le projet GNS3 existant, il n'y a pas de routeur "+hostname)
