@@ -103,6 +103,7 @@ handle by `charge_objects.py`
 `3_start_telnet.py`
 
 ## Part 5: Constrain
+todo: shelve behaves different in Linux
 - contrainte utilisateur : pour les IP d'interfaces connectées à un routeur, le masque ne doit pas être trop petit (2 blocs :XXXX:XXXX réservés à l'hôte) (donc /96 max ?)
 
 - contrainte utilisateur : max 99 routeurs dans le projet
