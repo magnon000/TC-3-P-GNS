@@ -14,6 +14,8 @@
   - [Part 4: Deployment](#part-4-deployment)
     - [4.1 Load JSON config to Python persistent Object](#41-load-json-config-to-python-persistent-object)
     - [4.2 Pass persistent object to Python class](#42-pass-persistent-object-to-python-class)
+    - [4.3 Choose one method to deploy the generated configurations](#43-choose-one-method-to-deploy-the-generated-configurations)
+  - [Part 5: Constrain](#part-5-constrain)
 ---
 ## Part 1: Network Configuration
 ### Consignes :
@@ -66,6 +68,7 @@
 * * dependence:
 * * * tkinter 
 * * * * possible ImportError on Ubuntu (try `sudo apt-get install python3-tk`)
+* gns3fy (propositions_prof, not used because .gns3 is similar to .json)
 ### 3.1 Architecture
 physical network architecture -> JSON
 ### 3.2 Addressing
@@ -87,19 +90,31 @@ link metrics -> "neighbor-cost"
 
 ## Part 4: Deployment
 ### 4.1 Load JSON config to Python persistent Object
+lauch `0_start_load_json_save_pObj.py`
+
+For the same network, this is required only once, then following methods `Drag and Drop`,  `Drag and Drop bot` and `Telnet`.
 ### 4.2 Pass persistent object to Python class
+handle by `charge_objects.py`
+### 4.3 Choose one method to deploy the generated configurations
+`1_start_drag_and_drop.py`
 
-* neighbor_as_list:
+`2_start_auto_deplacement.py`
 
-[{'as-number': 2, 'local-pref': 200, 'peering-prefix': '12::/32', 'gateway-routers': [{'router-number': 6, 'MED': 'default'}, {'router-number': 7, 'MED': 'default'}]}, {'as-number': 1, 'local-pref': 200, 'peering-prefix': '12::/16', 'gateway-routers': [{'router-number': 8, 'MED': 'default'}, {'router-number': 9, 'MED': 'default'}]}]
-* asbr_list:
+`3_start_telnet.py`
 
-[[{'router-number': 6, 'MED': 'default'}, {'router-number': 7, 'MED': 'default'}], [{'router-number': 8, 'MED': 'default'}, {'router-number': 9, 'MED': 'default'}]]
-* routers_list:
+## Part 5: Constrain
+- contrainte utilisateur : pour les IP d'interfaces connectées à un routeur, le masque ne doit pas être trop petit (2 blocs :XXXX:XXXX réservés à l'hôte) (donc /96 max ?)
 
-[[{'router-hostname': 1, 'router-neighbors': [{'router-number': 2, 'interface': 0}, {'router-number': 3, 'interface': 1}]}, {'router-hostname': 2, 'router-neighbors': [{'router-number': 1, 'interface': 0}, {'router-number': 3, 'interface': 1}, {'router-number': 4, 'interface': 2}]}, {'router-hostname': 3, 'router-neighbors': [{'router-number': 1, 'interface': 0}, {'router-number': 2, 'interface': 1}, {'router-number': 5, 'interface': 2}]}, {'router-hostname': 4, 'router-neighbors': [{'router-number': 2, 'interface': 0}, {'router-number': 5, 'interface': 1}, {'router-number': 6, 'interface': 2}, {'router-number': 7, 'interface': 3}]}, {'router-hostname': 5, 'router-neighbors': [{'router-number': 3, 'interface': 0}, {'router-number': 4, 'interface': 1}, {'router-number': 6, 'interface': 3}, {'router-number': 7, 'interface': 2}]}, {'router-hostname': 6, 'router-neighbors': [{'router-number': 4, 'interface': 0}, {'router-number': 5, 'interface': 3}, {'router-number': 8, 'interface': 2}]}, {'router-hostname': 7, 'router-neighbors': [{'router-number': 4, 'interface': 3}, {'router-number': 5, 'interface': 0}, {'router-number': 9, 'interface': 2}]}], [{'router-hostname': 8, 'router-neighbors': [{'router-number': 10, 'interface': 0}, {'router-number': 6, 'interface': 2}, {'router-number': 11, 'interface': 3}]}, {'router-hostname': 9, 'router-neighbors': [{'router-number': 11, 'interface': 0}, {'router-number': 7, 'interface': 2}, {'router-number': 11, 'interface': 3}]}, {'router-hostname': 10, 'router-neighbors': [{'router-number': 12, 'interface': 0}, {'router-number': 11, 'interface': 1}, {'router-number': 8, 'interface': 2}, {'router-number': 9, 'interface': 3}]}, {'router-hostname': 11, 'router-neighbors': [{'router-number': 13, 'interface': 0}, {'router-number': 10, 'interface': 1}, {'router-number': 9, 'interface': 2}, {'router-number': 8, 'interface': 3}]}, {'router-hostname': 12, 'router-neighbors': [{'router-number': 14, 'interface': 0}, {'router-number': 13, 'interface': 1}, {'router-number': 10, 'interface': 2}]}, {'router-hostname': 13, 'router-neighbors': [{'router-number': 14, 'interface': 0}, {'router-number': 12, 'interface': 1}, {'router-number': 11, 'interface': 2}]}, {'router-hostname': 14, 'router-neighbors': [{'router-number': 12, 'interface': 0}, {'router-number': 13, 'interface': 1}]}]]
+- contrainte utilisateur : max 99 routeurs dans le projet
 
-* router_neighbor_list: 
+- contrainte utilisateur : peering prefix le même pour toutes les liaison d'un couple d'AS => ne supporte pas 2 interfaces d'1 routeur vers le même routeur du même AS voisin (=> pas de double liaison entre 2 routeurs d'AS différents)
 
-[[{'router-number': 2, 'interface': 0}, {'router-number': 3, 'interface': 1}], [{'router-number': 1, 'interface': 0}, {'router-number': 3, 'interface': 1}, {'router-number': 4, 'interface': 2}], [{'router-number': 1, 'interface': 0}, {'router-number': 2, 'interface': 1}, {'router-number': 5, 'interface': 2}], [{'router-number': 2, 'interface': 0}, {'router-number': 5, 'interface': 1}, {'router-number': 6, 'interface': 2}, {'router-number': 7, 'interface': 3}], [{'router-number': 3, 'interface': 0}, {'router-number': 4, 'interface': 1}, {'router-number': 6, 'interface': 3}, {'router-number': 7, 'interface': 2}], [{'router-number': 4, 'interface': 0}, {'router-number': 5, 'interface': 3}, {'router-number': 8, 'interface': 2}], [{'router-number': 4, 'interface': 3}, {'router-number': 5, 'interface': 0}, {'router-number': 9, 'interface': 2}], [{'router-number': 10, 'interface': 0}, {'router-number': 6, 'interface': 2}, {'router-number': 11, 'interface': 3}], [{'router-number': 11, 'interface': 0}, {'router-number': 7, 'interface': 2}, {'router-number': 11, 'interface': 3}], [{'router-number': 12, 'interface': 0}, {'router-number': 11, 'interface': 1}, {'router-number': 8, 'interface': 2}, {'router-number': 9, 'interface': 3}], [{'router-number': 13, 'interface': 0}, {'router-number': 10, 'interface': 1}, {'router-number': 9, 'interface': 2}, {'router-number': 8, 'interface': 3}], [{'router-number': 14, 'interface': 0}, {'router-number': 13, 'interface': 1}, {'router-number': 10, 'interface': 2}], [{'router-number': 14, 'interface': 0}, {'router-number': 12, 'interface': 1}, {'router-number': 11, 'interface': 2}], [{'router-number': 12, 'interface': 0}, {'router-number': 13, 'interface': 1}]]
+- contrainte utilisateur : peering prefix de l'AS A vers l'AS B le même que de l'AS B vers l'AS A (PAS vérifié automatiquement par le script) EXTREMEMENT IMPORTANT
 
+- contrainte utilisateur : une interface ne peut pas exister sans routeur (routeur parent nécessaire au constructeur)
+
+- contrainte utilisateur : 1 seule protocole intra domaine par AS qui relie FORCEMENT tous les routeurs de l'AS
+
+- contrainte utilisateur : peering prefix entre 2 as à spécifier obligatoirement (long bloc de commentaire qui dit l'inverse dans instruments.py mais c'est pour si jamais on a le temps)
+
+- contrainte pour lecteur/éditeur du code : instruments.py très sale, fonction add_interface_from_neighbor_router() dans ASBR TRES TRES TRES BANCALE FAIRE TRES ATTENTION
