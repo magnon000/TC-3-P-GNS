@@ -139,14 +139,15 @@ with shelve.open(shelve_path) as obj:
 
     """generate all ASBR objects & add all interfaces"""
     for as_num in obj['as_number_list']:
-        for temp_dict in obj['asbr_as_' + str(as_num)]:
-            temp_asbr_num = temp_dict['router-number']  # to avoid python escape characters
-            exec(
-                "asbr_{}_obj = ASBR(int(router_{}_obj.router_hostname), as_{}_obj)".format(temp_asbr_num, temp_asbr_num,
-                                                                                           as_num))
-            # copy all Router.interfaces to ASBR.interfaces
-            exec("asbr_{}_obj.interfaces = deepcopy(router_{}_obj.interfaces)".format(temp_asbr_num, temp_asbr_num))
-            # exec("print(asbr_{}_obj)".format(temp_asbr_num))
+        for asbr_list in obj['asbr_as_' + str(as_num)]:
+            for one_dict in asbr_list:
+                temp_asbr_num = one_dict['router-number']  # to avoid python escape characters
+                exec(
+                    "asbr_{}_obj = ASBR(int(router_{}_obj.router_hostname), as_{}_obj)"
+                    .format(temp_asbr_num, temp_asbr_num, as_num))
+                # copy all Router.interfaces to ASBR.interfaces
+                exec("asbr_{}_obj.interfaces = deepcopy(router_{}_obj.interfaces)".format(temp_asbr_num, temp_asbr_num))
+                # exec("print(asbr_{}_obj)".format(temp_asbr_num))
     del temp_asbr_num
 
     """
@@ -159,33 +160,46 @@ with shelve.open(shelve_path) as obj:
         # print(obj['neighbor_as_' + str(as_num)])
         as_neighbors_list_of_dicts = obj['neighbor_as_' + str(as_num)]
         temp_neighbors_dicts = {}
+        temp_peerings_prefix = {}
+        neighbor_index = 0
         for as_neighbor_dict in as_neighbors_list_of_dicts:
-            # if as_neighbor_num:  # detect if still in same AS
-            #     if as_neighbor_num == as_neighbor_dict['as-number']:
-            #         asbr_list.append()  # to-do: if 1 AS has n peering_prefix
             as_neighbor_num = as_neighbor_dict['as-number']
             asbr_list = []
-            for temp_dict in obj['asbr_as_' + str(as_num)]:
-                temp_asbr_num = temp_dict['router-number']
+            # for asbr_list_temp in obj['asbr_as_' + str(as_num)]:
+            #     print(asbr_list_temp)
+            #     for asbr_dict in asbr_list_temp:
+            #         # print(neighbor_index, asbr_dict)
+            #         temp_asbr_num = asbr_dict['router-number']
+            #         exec("asbr_list.append(asbr_{}_obj)".format(temp_asbr_num))
+            for asbr_dict in obj['asbr_as_' + str(as_num)][neighbor_index]:  # if 1 AS has n peering_prefix
+                # print(neighbor_index, asbr_dict)
+                temp_asbr_num = asbr_dict['router-number']
                 exec("asbr_list.append(asbr_{}_obj)".format(temp_asbr_num))
+            # print(as_num, asbr_list)
+            neighbor_index += 1
             as_peering = as_neighbor_dict['peering-prefix']
             temp_neighbor_dict = {str(as_neighbor_num): asbr_list}
             temp_peering_prefix = {str(as_neighbor_num): as_peering}  # to-do: change this to list if 1 AS n peering_pre
-        temp_neighbors_dicts.update(temp_neighbor_dict)
+            temp_neighbors_dicts.update(temp_neighbor_dict)
+            temp_peerings_prefix.update(temp_peering_prefix)
         # write to object
         exec("as_{}_obj.AS_neighbors = temp_neighbors_dicts".format(as_num))
-        exec("as_{}_obj.AS_neighbors_peering_prefixes.update(temp_peering_prefix)".format(as_num))
+        exec("as_{}_obj.AS_neighbors_peering_prefixes.update(temp_peerings_prefix)".format(as_num))
         # exec("print(as_{}_obj.__dict__)".format(as_num))
     del as_neighbors_list_of_dicts, temp_neighbors_dicts, as_neighbor_num, asbr_list, temp_asbr_num, as_peering
-    del temp_neighbor_dict, temp_peering_prefix
+    del temp_neighbor_dict, temp_peering_prefix, neighbor_index, temp_peerings_prefix
 
     """delete ASBR related Router"""
     for as_num in obj['as_number_list']:
         exec("temp_router_list = as_{}_obj.routers".format(as_num))
-        for temp_dict in obj['asbr_as_' + str(as_num)]:
-            temp_asbr_num = temp_dict['router-number']
-            exec("as_{}_obj.routers.remove(router_{}_obj)".format(as_num, temp_asbr_num))
-            exec("del router_{}_obj".format(temp_asbr_num))
+        for asbr_list in obj['asbr_as_' + str(as_num)]:
+            for asbr_dict in asbr_list:
+                temp_asbr_num = asbr_dict['router-number']
+                try:
+                    exec("as_{}_obj.routers.remove(router_{}_obj)".format(as_num, temp_asbr_num))
+                    exec("del router_{}_obj".format(temp_asbr_num))
+                except NameError:
+                    pass
         exec("print(as_{}_obj.__dict__)".format(as_num))
     del temp_asbr_num
 
@@ -198,7 +212,6 @@ with shelve.open(shelve_path) as obj:
         except NameError:
             exec("routeurs.append(asbr_{}_obj)".format(as_num))
     print(routeurs)
-
 
 if __name__ == '__main__':
     pass

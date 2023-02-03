@@ -1,5 +1,7 @@
 """
 handle JSON read, Python persistent object save
+for later use:
+read JSON only 1 time, call flatten Python persistent object for different methods
 """
 import json
 import shelve
@@ -24,7 +26,13 @@ def get_5_lists(convert_dict: dict) -> tuple:
     """flatten JSON structure to match class AS, class ASBR and class Router."""
     as_list = convert_dict['as']  # for get_as_num_list() and get_router_num_list().
     neighbor_as_list = [one_as['neighbor-as'] for one_as in as_list]
-    asbr_list = [one_neighbor['asbr'] for neighbor_as in neighbor_as_list for one_neighbor in neighbor_as]
+    # asbr_list = [one_neighbor['asbr'] for neighbor_as in neighbor_as_list for one_neighbor in neighbor_as]  # error
+    asbr_list = []  # list(list(dict()))
+    for neighbor_as in neighbor_as_list:
+        multi_asbr_in_1as_list = []
+        for one_neighbor in neighbor_as:
+            multi_asbr_in_1as_list.append(one_neighbor['asbr'])
+        asbr_list.append(multi_asbr_in_1as_list)
     routers_list = [router['routers'] for router in as_list]
     router_neighbor_list = [router['router-neighbors'] for as_routers in routers_list for router in as_routers]
     for as_routers in routers_list:
@@ -62,9 +70,11 @@ def save_obj(obj_name: str, write_data: tuple, as_num_list, router_num_list) -> 
             count = 0
             for elem in lst:
                 p_obj[key_list[index] + str(num_list[index][count])] = elem
-                print(lst, count)  # todo: problem with 2+ as neighbor
+                # print(key_list[index], elem)
                 count += 1
+            # print("end elem\n")
             index += 1
+        # print("end lst\n")
         p_obj['as_number_list'] = as_num_list
         p_obj['router_number_list'] = router_num_list
 
@@ -84,8 +94,6 @@ if __name__ == '__main__':
     print("router number list:", router_nb_list)
     save_obj(save_path, tuple_5_lists, as_nb_list, router_nb_list)
     with shelve.open(save_path) as test:
+        print("\nsaved objects:\n")
         for ele in test:
             print(ele)
-        print(test['asbr_as_2'])
-        print(test['neighbor_router_14'])
-        print(test['neighbor_as_1'])

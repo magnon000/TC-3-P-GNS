@@ -4,3 +4,5 @@ project-files/dynamips/*.ghost
 project-files/dynamips/*.txt
 dynamips-backup/dynamips/*.ghose
 dynamips-backup/dynamips/*.txt
+Essai_script/test_script/project-files/dynamips/*.ghose
+Essai_script/test_script/project-files/dynamips/*.txt
