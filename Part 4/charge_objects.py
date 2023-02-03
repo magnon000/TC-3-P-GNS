@@ -10,7 +10,7 @@ from copy import deepcopy
 
 
 def ask_shelve_path() -> str:  # no file type
-    return filedialog.askopenfilename(title=u'Save Python persistent object', filetypes=[("DAT", ".dat")])[:-4]
+    return filedialog.askopenfilename(title=u'OPEN Python persistent object', filetypes=[("DAT", ".dat")])[:-4]
 
 
 def charge_as(shelve_obj_dict) -> object:

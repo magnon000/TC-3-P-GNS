@@ -9,11 +9,11 @@ from tkinter import filedialog
 
 
 def ask_obj_path() -> str:
-    return filedialog.asksaveasfilename(title=u'Save Python persistent object', filetypes=[])
+    return filedialog.asksaveasfilename(title=u'SAVE Python persistent object', filetypes=[])
 
 
 def ask_json_file() -> str:
-    return filedialog.askopenfilename(title=u'Load JSON file', filetypes=[("JSON", ".json")])
+    return filedialog.askopenfilename(title=u'LOAD JSON file', filetypes=[("JSON", ".json")])
 
 
 def convert_json(file: str) -> dict:
